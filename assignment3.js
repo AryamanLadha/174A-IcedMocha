@@ -11,13 +11,15 @@ export class Assignment3 extends Scene {
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
             token: new defs.Subdivision_Sphere(4),
+            wall: new defs.Cube
         },
         // *** Materials
         this.materials = {
             test: new Material(new defs.Phong_Shader(),
                 {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
             token: new Material(new Gouraud_Shader(),
-                {ambient: 1, color: hex_color("#d2c1b0")}),      
+                {ambient: 1, color: hex_color("#d2c1b0")}),
+            wall: new Material(new Gouraud_Shader(), {ambient: 1, color: hex_color("#00008B")})
         }
 
         this.initial_camera_location = Mat4.look_at(vec3(-10, -10, 10), vec3(0, 0, 0), vec3(1, 1, 0));
@@ -58,12 +60,44 @@ export class Assignment3 extends Scene {
         const cols = 26;
         const factor = 0.1
         const sep = 5;
+        // Place the tokens
         for(let r = 0; r<rows; r+=1){
             for(let c = 0; c<cols; c+=1){
                 let model_transform = Mat4.identity().times(Mat4.scale(factor, factor, factor)).times(Mat4.translation(r*sep, c*sep, 0))
                 this.shapes.token.draw(context, program_state, model_transform, this.materials.token)
             }
         };
+        // Place the walls
+        // left
+        const multiplier = 0.5;
+        let model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-2,-2,0));
+        for(let i = 0; i<29*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(0,multiplier,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        //right
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(30,-2,0));
+        for(let i = 0; i<29*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(0,multiplier,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        //bottom
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-1,-2,0));
+        for(let i = 0; i<30*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+
+        //top
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-2,27,0));
+        for(let i = 0; i<30*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
     }
 }
 
