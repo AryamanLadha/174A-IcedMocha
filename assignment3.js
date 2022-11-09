@@ -187,19 +187,19 @@ export class Assignment3 extends Scene {
         switch(this.shapes.pacman.direction){
             // up
             case 'w': 
-                matrix = Mat4.translation(0,-this.shapes.pacman.speed,0);
+                matrix = Mat4.translation(0,-this.shapes.pacman.speed,2);
                 break;
             // down
             case 's': 
-                matrix = Mat4.translation(0,this.shapes.pacman.speed,0);
+                matrix = Mat4.translation(0,this.shapes.pacman.speed,2);
                 break;
             // left
             case 'a': 
-                matrix = Mat4.translation(this.shapes.pacman.speed,0,0);
+                matrix = Mat4.translation(this.shapes.pacman.speed,0,2);
                 break;
             // right
             case 'd': 
-                matrix = Mat4.translation(-this.shapes.pacman.speed,0,0);
+                matrix = Mat4.translation(-this.shapes.pacman.speed,0,2);
                 break;
             default: 
                 matrix = Mat4.translation(0,0,0);
@@ -207,26 +207,25 @@ export class Assignment3 extends Scene {
         }
  
         if (this.attached && this.attached() !== null){
-            desired = Mat4.inverse(this.shapes.pacman.position.times(matrix));
+            desired = this.shapes.pacman.position.times(matrix).times(Mat4.translation(0,0,1));
+            desired = Mat4.inverse(desired);
         }
  
         let blending_factor = 0.1;
         desired = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
         program_state.set_camera(desired);
-        
-
     }
 }
- 
+
 class Gouraud_Shader extends Shader {
     // This is a Shader using Phong_Shader as template
     // TODO: Modify the glsl coder here to create a Gouraud Shader (Planet 2)
- 
+
     constructor(num_lights = 2) {
         super();
         this.num_lights = num_lights;
     }
- 
+
     shared_glsl_code() {
         // ********* SHARED CODE, INCLUDED IN BOTH SHADERS *********
         return ` 
@@ -237,7 +236,7 @@ class Gouraud_Shader extends Shader {
         uniform float light_attenuation_factors[N_LIGHTS];
         uniform vec4 shape_color;
         uniform vec3 squared_scale, camera_center;
- 
+
         // Specifier "varying" means a variable's final value will be passed from the vertex shader
         // on to the next phase (fragment shader), then interpolated per-fragment, weighted by the
         // pixel fragment's proximity to each of the 3 vertices (barycentric interpolation).
@@ -257,7 +256,7 @@ class Gouraud_Shader extends Shader {
                 vec3 surface_to_light_vector = light_positions_or_vectors[i].xyz - 
                                                light_positions_or_vectors[i].w * vertex_worldspace;                                             
                 float distance_to_light = length( surface_to_light_vector );
- 
+
                 vec3 L = normalize( surface_to_light_vector );
                 vec3 H = normalize( L + E );
                 // Compute the diffuse and specular components from the Phong
@@ -265,7 +264,7 @@ class Gouraud_Shader extends Shader {
                 float diffuse  =      max( dot( N, L ), 0.0 );
                 float specular = pow( max( dot( N, H ), 0.0 ), smoothness );
                 float attenuation = 1.0 / (1.0 + light_attenuation_factors[i] * distance_to_light * distance_to_light );
- 
+
                 vec3 light_contribution = shape_color.xyz * light_colors[i].xyz * diffusivity * diffuse
                                                           + light_colors[i].xyz * specularity * specular;
                 result += attenuation * light_contribution;
@@ -273,16 +272,16 @@ class Gouraud_Shader extends Shader {
             return result;
         } `;
     }
- 
+
     vertex_glsl_code() {
         // ********* VERTEX SHADER *********
         return this.shared_glsl_code() + `
             attribute vec3 position, normal;                            
             // Position is expressed in object coordinates.
- 
+
             uniform mat4 model_transform;
             uniform mat4 projection_camera_model_transform;
- 
+
             void main(){                                                                   
                 // The vertex's final resting place (in NDCS):
                 gl_Position = projection_camera_model_transform * vec4( position, 1.0 );
@@ -295,7 +294,7 @@ class Gouraud_Shader extends Shader {
                 color.xyz += phong_model_lights( normalize( N ), vertex_worldspace );
             } `;
     }
- 
+
     fragment_glsl_code() {
         // ********* FRAGMENT SHADER *********
         // A fragment is a pixel that's overlapped by the current triangle.
@@ -306,7 +305,7 @@ class Gouraud_Shader extends Shader {
                 gl_FragColor = vec4(color, shape_color.w );
             } `;
     }
- 
+
     send_material(gl, gpu, material) {
         // send_material(): Send the desired shape-wide material qualities to the
         // graphics card, where they will tweak the Phong lighting formula.
@@ -316,7 +315,7 @@ class Gouraud_Shader extends Shader {
         gl.uniform1f(gpu.specularity, material.specularity);
         gl.uniform1f(gpu.smoothness, material.smoothness);
     }
- 
+
     send_gpu_state(gl, gpu, gpu_state, model_transform) {
         // send_gpu_state():  Send the state of our whole drawing context to the GPU.
         const O = vec4(0, 0, 0, 1), camera_center = gpu_state.camera_transform.times(O).to3();
@@ -335,11 +334,11 @@ class Gouraud_Shader extends Shader {
         const PCM = gpu_state.projection_transform.times(gpu_state.camera_inverse).times(model_transform);
         gl.uniformMatrix4fv(gpu.model_transform, false, Matrix.flatten_2D_to_1D(model_transform.transposed()));
         gl.uniformMatrix4fv(gpu.projection_camera_model_transform, false, Matrix.flatten_2D_to_1D(PCM.transposed()));
- 
+
         // Omitting lights will show only the material color, scaled by the ambient term:
         if (!gpu_state.lights.length)
             return;
- 
+
         const light_positions_flattened = [], light_colors_flattened = [];
         for (let i = 0; i < 4 * gpu_state.lights.length; i++) {
             light_positions_flattened.push(gpu_state.lights[Math.floor(i / 4)].position[i % 4]);
@@ -349,23 +348,23 @@ class Gouraud_Shader extends Shader {
         gl.uniform4fv(gpu.light_colors, light_colors_flattened);
         gl.uniform1fv(gpu.light_attenuation_factors, gpu_state.lights.map(l => l.attenuation));
     }
- 
+
     update_GPU(context, gpu_addresses, gpu_state, model_transform, material) {
         // update_GPU(): Define how to synchronize our JavaScript's variables to the GPU's.  This is where the shader
         // recieves ALL of its inputs.  Every value the GPU wants is divided into two categories:  Values that belong
         // to individual objects being drawn (which we call "Material") and values belonging to the whole scene or
         // program (which we call the "Program_State").  Send both a material and a program state to the shaders
         // within this function, one data field at a time, to fully initialize the shader for a draw.
- 
+
         // Fill in any missing fields in the Material object with custom defaults for this shader:
         const defaults = {color: color(0, 0, 0, 1), ambient: 0, diffusivity: 1, specularity: 1, smoothness: 40};
         material = Object.assign({}, defaults, material);
- 
+
         this.send_material(context, gpu_addresses, material);
         this.send_gpu_state(context, gpu_addresses, gpu_state, model_transform);
     }
 }
- 
+
 class Ring_Shader extends Shader {
     update_GPU(context, gpu_addresses, graphics_state, model_transform, material) {
         // update_GPU():  Defining how to synchronize our JavaScript's variables to the GPU's:
@@ -375,7 +374,7 @@ class Ring_Shader extends Shader {
         context.uniformMatrix4fv(gpu_addresses.projection_camera_model_transform, false,
             Matrix.flatten_2D_to_1D(PCM.transposed()));
     }
- 
+
     shared_glsl_code() {
         // ********* SHARED CODE, INCLUDED IN BOTH SHADERS *********
         return `
@@ -384,7 +383,7 @@ class Ring_Shader extends Shader {
         varying vec4 center;
         `;
     }
- 
+
     vertex_glsl_code() {
         // ********* VERTEX SHADER *********
         // TODO:  Complete the main function of the vertex shader (Extra Credit Part II).
@@ -392,14 +391,14 @@ class Ring_Shader extends Shader {
         attribute vec3 position;
         uniform mat4 model_transform;
         uniform mat4 projection_camera_model_transform;
- 
+
         void main(){
             gl_Position = projection_camera_model_transform * vec4(position, 1.);
             point_position = model_transform * vec4(position, 1.);
             center = model_transform * vec4(0., 0., 0., 1.);
         }`;
     }
- 
+
     fragment_glsl_code() {
         // ********* FRAGMENT SHADER *********
         // TODO:  Complete the main function of the fragment shader (Extra Credit Part II).
