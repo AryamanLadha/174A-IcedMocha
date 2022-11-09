@@ -76,45 +76,21 @@ export class Assignment3 extends Scene {
         // constructor(): Scenes begin by populating initial values like the Shapes and Materials they'll need.
         super();
 
-        this.speed = 0.01;
+        this.speed = 0.05;
  
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
-            torus: new defs.Torus(15, 15),
-            torus2: new defs.Torus(3, 15),
-            
-            circle: new defs.Regular_2D_Polygon(1, 15),
-            
+            token: new defs.Subdivision_Sphere(4),
+            wall: new defs.Cube,
             pacman:  new PacMan(this.speed),
-            sun: new defs.Subdivision_Sphere(4),
-            planet1: new (defs.Subdivision_Sphere.prototype.make_flat_shaded_version())(2),
-            planet2: new defs.Subdivision_Sphere(3),
-            planet3: new defs.Subdivision_Sphere(4),
-            planet4: new defs.Subdivision_Sphere(4),
-            moon: new (defs.Subdivision_Sphere.prototype.make_flat_shaded_version())(1),
- 
-        };
- 
+        },
         // *** Materials
         this.materials = {
             test: new Material(new defs.Phong_Shader(),
-                {ambient: .4, diffusivity: .6, color: hex_color("#ffffff")}),
-            test2: new Material(new Gouraud_Shader(),
-                {ambient: .4, diffusivity: .6, color: hex_color("#992828")}),
- 
-            // TODO:  Fill in as many additional material objects as needed in this key/value table. (Requirement 4)
-            ring: new Material(new Ring_Shader(), 
-                {ambient: 0, color: hex_color(" #B08040")}),
-            planet1: new Material(new defs.Phong_Shader(),
-                {ambient: 0, diffusivity: .6, color: hex_color("#808080")}),
-            planet2_phong: new Material(new defs.Phong_Shader(),
-                {ambient: 0, specularity: 1, diffusivity: .2, color: hex_color("#80FFFF")}),
-            planet2_gouraud: new Material(new Gouraud_Shader(), 
-                {ambient: 0, specularity: 1, diffusivity: .2, color: hex_color("#80FFFF")}), 
-            planet3: new Material(new defs.Phong_Shader(),
-                {ambient: 0, specularity: 1, diffusivity: 1, color: hex_color("#B08040")}), 
-            planet4: new Material(new defs.Phong_Shader(),
-                {ambient: 0, specularity: 1, smoothness: 100, diffusivity: 0.2, color: hex_color("#C7E4EE")}), 
+                {ambient: 1, diffusivity: .6, color: hex_color("#ffffff")}),
+            token: new Material(new Gouraud_Shader(),
+                {ambient: 1, color: hex_color("#d2c1b0")}),
+            wall: new Material(new Gouraud_Shader(), {ambient: 1, color: hex_color("#00008B")})
         }
  
         this.planet_1 = Mat4.identity();
@@ -123,7 +99,7 @@ export class Assignment3 extends Scene {
         this.planet_4 = Mat4.identity();
         this.moon = Mat4.identity();
  
-        this.initial_camera_location = Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
+        this.initial_camera_location = Mat4.look_at(vec3(-10, -10, 10), vec3(0, 0, 0), vec3(1, 1, 0));
     }
  
     make_control_panel() {
@@ -144,7 +120,7 @@ export class Assignment3 extends Scene {
     }
  
     display(context, program_state) {
-        let model_transform = Mat4.identity();
+        let model_transform = Mat4.identity().times(Mat4.scale(0.4,0.4,0.4));
         const t = program_state.animation_time / 1000, dt = program_state.animation_delta_time / 1000;
  
         // display():  Called once per frame of animation.
@@ -165,60 +141,49 @@ export class Assignment3 extends Scene {
         const yellow = hex_color("#fac91a");
         this.shapes.pacman.draw(context, program_state, model_transform, this.materials.test.override({color: yellow}));
         this.shapes.pacman.move();
- 
-        // TODO: Create Planets (Requirement 1)
-        // fades from (255, 0, 0) to (255, 255, 255) --> (1, 0, 0) to (1, 1, 1)
-        // let red_fade = (1/2) - (1/2) * Math.cos((1/10) * Math.PI * t);
-        // let sun_radius = 2 - Math.cos((1/10) * Math.PI * t);
-        // let sun_scale = Mat4.scale(sun_radius, sun_radius, sun_radius);
- 
-        // // TODO: Lighting (Requirement 2)
-        // const light_position = vec4(0, 5, 5, 1);
-        // // The parameters of the Light are: position, color, size
-        // let sun_light = new Light(light_position, color(1, red_fade, red_fade, 1), 10 ** sun_radius);
-        // program_state.lights = [sun_light];
- 
-        // // TODO:  Fill in matrix operations and drawing code to draw the solar system scene (Requirements 3 and 4)
-        // // Transformations
-        // model_transform = model_transform.times(sun_scale);
-        // this.planet_1 = model_transform.times(Mat4.rotation(1.75*t, 0, 1, 0)).times(Mat4.translation(5,0,0));
- 
-        // this.planet_2 = model_transform.times(Mat4.rotation(1.25*t, 0, 1, 0)).times(Mat4.translation(8,0,0));
- 
-        // this.planet_3 = model_transform.times(Mat4.rotation(0.75*t, 0, 1, 0)).times(Mat4.translation(11,0,0));
-        // let planet3_ring = this.planet_3.times(Mat4.scale(1.5,1.5,0.25));
- 
-        // this.planet_4 = model_transform.times(Mat4.rotation(0.25*t, 0, 1, 0)).times(Mat4.translation(14,0,0));
-        // this.moon  = this.planet_4.times(Mat4.rotation(0.25*t, 0, 1, 0)).times(Mat4.translation(2,0,0)).times(Mat4.scale(0.5, 0.5, 0.5));
- 
-        // // Drawing
-        // this.shapes.sun.draw(context, program_state, model_transform, this.materials.test.override({ambient:1, color: color(1, red_fade, red_fade, 1)}));
-        // this.shapes.planet1.draw(context, program_state, this.planet_1, this.materials.planet1);
- 
-        // if (Math.floor(t % 2) === 0)
-        //     this.shapes.planet2.draw(context,program_state, this.planet_2,this.materials.planet2_phong);
-        // else
-        //     this.shapes.planet2.draw(context,program_state, this.planet_2,this.materials.planet2_gouraud);
- 
-        // this.shapes.planet3.draw(context,program_state,this.planet_3,this.materials.planet3);
-        // // this.shapes.torus.draw(context,program_state,planet3_ring,this.materials.ring);
- 
-        // // this.shapes.planet4.draw(context,program_state,this.planet_4,this.materials.planet4);
-        // // this.shapes.moon.draw(context,program_state,this.moon,this.materials.test);
- 
- 
-        // // Camera
-        // let desired = this.initial_camera_location;
- 
-        // if (this.attached && this.attached() !== null){
-        //     desired = this.attached();
-        //     desired = Mat4.inverse(desired.times(Mat4.translation(0, 0, 5)));
-        // }
- 
-        // let blending_factor = 0.1;
-        // desired = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
-        // program_state.set_camera(desired);
- 
+
+        const rows = 29;
+        const cols = 26;
+        const factor = 0.1
+        const sep = 5;
+        // Place the tokens
+        for(let r = 0; r<rows; r+=1){
+            for(let c = 0; c<cols; c+=1){
+                let model_transform = Mat4.identity().times(Mat4.scale(factor, factor, factor)).times(Mat4.translation(r*sep, c*sep, 0))
+                this.shapes.token.draw(context, program_state, model_transform, this.materials.token)
+            }
+        };
+        // Place the walls
+        // left
+        const multiplier = 0.5;
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-2,-2,0));
+        for(let i = 0; i<29*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(0,multiplier,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        //right
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(30,-2,0));
+        for(let i = 0; i<29*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(0,multiplier,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        //bottom
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-1,-2,0));
+        for(let i = 0; i<30*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+
+        //top
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-2,27,0));
+        for(let i = 0; i<30*2; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
     }
 }
  
