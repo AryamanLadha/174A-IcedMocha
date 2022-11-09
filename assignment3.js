@@ -22,7 +22,7 @@ class PacMan extends something {
         let direction  = "f";
         const info = {
             shape: new defs.Subdivision_Sphere(4),
-            materials: new Material(new defs.Phong_Shader(),
+            materials: new Material(new Gouraud_Shader(),
                 {ambient: 0.4, diffusivity: 0.8, color: hex_color("#fac91a")}),
         }
         super(info, Mat4.identity(), direction, speed);
@@ -108,15 +108,12 @@ export class Assignment3 extends Scene {
         this.key_triggered_button("Left", ["a"], () => {this.shapes.pacman.direction = "a"});
         this.key_triggered_button("Right", ["d"], () => {this.shapes.pacman.direction = "d"});
         this.key_triggered_button("Stop", ["z"], () => {this.shapes.pacman.direction = "z"});
-        // this.key_triggered_button("View solar system", ["Control", "0"], () => this.attached = () => null);
-        // this.new_line();
-        // this.key_triggered_button("Attach to planet 1", ["Control", "1"], () => this.attached = () => this.planet_1);
-        // this.key_triggered_button("Attach to planet 2", ["Control", "2"], () => this.attached = () => this.planet_2);
-        // this.new_line();
-        // this.key_triggered_button("Attach to planet 3", ["Control", "3"], () => this.attached = () => this.planet_3);
-        // this.key_triggered_button("Attach to planet 4", ["Control", "4"], () => this.attached = () => this.planet_4);
-        // this.new_line();
-        // this.key_triggered_button("Attach to moon", ["Control", "m"], () => this.attached = () => this.moon);
+
+        this.new_line();
+        this.key_triggered_button("Bird's Eye View", [","], () => this.attached = () => null);
+        this.key_triggered_button("Pac-Man View", ["."], () => this.attached = () => this.shapes.pacman.direction);
+        
+        
     }
  
     display(context, program_state) {
@@ -183,6 +180,40 @@ export class Assignment3 extends Scene {
             model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
             this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
         }
+            
+        // Camera
+        let desired = this.initial_camera_location;
+        let matrix = Mat4.identity();
+        switch(this.shapes.pacman.direction){
+            // up
+            case 'w': 
+                matrix = Mat4.translation(0,-this.shapes.pacman.speed,0);
+                break;
+            // down
+            case 's': 
+                matrix = Mat4.translation(0,this.shapes.pacman.speed,0);
+                break;
+            // left
+            case 'a': 
+                matrix = Mat4.translation(this.shapes.pacman.speed,0,0);
+                break;
+            // right
+            case 'd': 
+                matrix = Mat4.translation(-this.shapes.pacman.speed,0,0);
+                break;
+            default: 
+                matrix = Mat4.translation(0,0,0);
+                break;
+        }
+ 
+        if (this.attached && this.attached() !== null){
+            desired = Mat4.inverse(this.shapes.pacman.position.times(matrix));
+        }
+ 
+        let blending_factor = 0.1;
+        desired = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
+        program_state.set_camera(desired);
+        
 
     }
 }
