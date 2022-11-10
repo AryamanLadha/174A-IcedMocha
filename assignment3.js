@@ -176,7 +176,6 @@ export class Assignment3 extends Scene {
             this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
         }
 
-
         //top
         model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(-2,27,0));
         for(let i = 0; i<30*2; i+=1){
@@ -184,6 +183,183 @@ export class Assignment3 extends Scene {
             this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
         }
 
+        // top 5 blocks
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(1,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(1,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(1,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        // 2nd row
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(1,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(5,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(9,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(13,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(17,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(21,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(25,22,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        // 5th row
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(5,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(5,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(9,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(13,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(17,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(21,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(25,4,0)).times(Mat4.scale(1,3,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        // 3rd row
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(5,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(9,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(13,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(17,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(21,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(25,16,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(5,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(9,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(13,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(17,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(21,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
+
+        model_transform = Mat4.identity().times(Mat4.scale(0.5,0.5,0.3)).times(Mat4.translation(25,10,0)).times(Mat4.scale(1,2,1));
+        for(let i = 1; i<4; i+=1){
+            model_transform = model_transform.times(Mat4.translation(multiplier,0,0))
+            this.shapes.wall.draw(context, program_state, model_transform, this.materials.wall);
+        }
     }
 }
  
