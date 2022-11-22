@@ -77,7 +77,6 @@ export class Assignment3 extends Scene {
         super();
 
         this.speed = 0.05;
- 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
             token: new defs.Subdivision_Sphere(4),
@@ -100,6 +99,8 @@ export class Assignment3 extends Scene {
         this.moon = Mat4.identity();
  
         this.initial_camera_location = Mat4.look_at(vec3(-10, -10, 10), vec3(0, 0, 0), vec3(1, 1, 0));
+        // Mat4.look_at(vec3(0, 10, 20), vec3(0, 0, 0), vec3(0, 1, 0));
+        //
     }
  
     make_control_panel() {
@@ -117,7 +118,8 @@ export class Assignment3 extends Scene {
     }
  
     display(context, program_state) {
-        let model_transform = Mat4.identity().times(Mat4.scale(0.4,0.4,0.4));
+        const pacman_scale = Mat4.scale(0.4,0.4,0.4);
+        let model_transform = Mat4.identity().times(pacman_scale);
         const t = program_state.animation_time / 1000, dt = program_state.animation_delta_time / 1000;
  
         // display():  Called once per frame of animation.
@@ -187,33 +189,34 @@ export class Assignment3 extends Scene {
         switch(this.shapes.pacman.direction){
             // up
             case 'w': 
-                matrix = Mat4.translation(0,-this.shapes.pacman.speed,2);
+                matrix = matrix.times(Mat4.translation(0,-5,5)).times(Mat4.rotation(0.3 * Math.PI, 1, 0, 0));
                 break;
             // down
             case 's': 
-                matrix = Mat4.translation(0,this.shapes.pacman.speed,2);
+                matrix = matrix.times(Mat4.translation(0,5,5)).times(Mat4.rotation(Math.PI,0,0,1)).times(Mat4.rotation(0.3 * Math.PI, 1, 0, 0));
                 break;
             // left
             case 'a': 
-                matrix = Mat4.translation(this.shapes.pacman.speed,0,2);
+                matrix = matrix.times(Mat4.translation(5,0,5).times(Mat4.rotation(Math.PI/2,0,0,1).times(Mat4.rotation(0.3*Math.PI, 1, 0, 0))));
                 break;
             // right
             case 'd': 
-                matrix = Mat4.translation(-this.shapes.pacman.speed,0,2);
+                matrix = matrix.times(Mat4.translation(-5,0,5).times(Mat4.rotation(-Math.PI/2,0,0,1).times(Mat4.rotation(0.3*Math.PI, 1, 0, 0))));
                 break;
-            default: 
-                matrix = Mat4.translation(0,0,0);
+            default:
+                matrix = Mat4.identity();
                 break;
         }
  
         if (this.attached && this.attached() !== null){
-            desired = this.shapes.pacman.position.times(matrix).times(Mat4.translation(0,0,1));
+            desired = pacman_scale.times(this.shapes.pacman.position).times(matrix);
             desired = Mat4.inverse(desired);
         }
  
         let blending_factor = 0.1;
         desired = desired.map((x,i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
-        program_state.set_camera(desired);
+        if (this.shapes.pacman.direction!=='z')
+            program_state.set_camera(desired);
     }
 }
 
