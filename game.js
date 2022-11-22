@@ -50,7 +50,7 @@ export class Game extends Scene {
         }
 
 
-        let model_transform = Mat4.identity().times(Mat4.scale(0.4, 0.4, 0.4));
+        let model_transform = Mat4.identity().times(Mat4.translation(2,10,0).times(Mat4.scale(0.9,0.9,0.9)));
         const t = program_state.animation_time / 1000, dt = program_state.animation_delta_time / 1000;
 
         program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, .1, 1000);
@@ -61,7 +61,7 @@ export class Game extends Scene {
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
         // Place the maze
-        this.shapes.maze.draw(context, program_state, model_transform);
+        this.shapes.maze.draw(context, program_state);
 
 
         // Place pacman

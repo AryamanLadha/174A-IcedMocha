@@ -10,10 +10,10 @@ export default class Maze {
         this.material = material;
     }
 
-    draw(context, program_state, model_transform) {
+    draw(context, program_state) {
         // Place the walls
         // left
-        model_transform = Mat4.identity().times(Mat4.translation(0,8,0));
+        let model_transform = Mat4.identity().times(Mat4.translation(0,8,0));
         for (let i = 0; i < 25; i += 1) {
             this.wall.draw(context, program_state, model_transform, this.material);
             model_transform = model_transform.times(Mat4.translation(0, 2, 0))
