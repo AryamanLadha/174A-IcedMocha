@@ -3,6 +3,7 @@ import Maze from "./maze.js"
 import PacMan from "./pacman.js";
 import Ghost from "./ghost.js";
 import Gouraud_Shader from "./gourad-shader.js"
+import Tokens from "./tokens.js"
 
 const {
     Vector, Vector3, vec, vec3, vec4, color, hex_color, Shader, Matrix, Mat4, Light, Shape, Material, Scene,
@@ -17,7 +18,7 @@ export class Game extends Scene {
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
-            token: new defs.Subdivision_Sphere(4),
+            tokens: new Tokens(),
             maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
             pacman: new PacMan(this.speed),
         },
@@ -25,8 +26,6 @@ export class Game extends Scene {
             this.materials = {
                 test: new Material(new defs.Phong_Shader(),
                     { ambient: 1, diffusivity: .6, color: hex_color("#ffffff") }),
-                token: new Material(new Gouraud_Shader(),
-                    { ambient: 1, color: hex_color("#d2c1b0") }),
             }
 
         this.initial_camera_location = Mat4.look_at(vec3(-10, -10, 10), vec3(0, 0, 0), vec3(1, 1, 0));
@@ -66,19 +65,10 @@ export class Game extends Scene {
 
         // Place pacman
         const yellow = hex_color("#fac91a");
-        this.shapes.pacman.draw(context, program_state, model_transform, this.materials.test.override({ color: yellow }));
-        this.shapes.pacman.move();
+        // this.shapes.pacman.draw(context, program_state, model_transform, this.materials.test.override({ color: yellow }));
+        // this.shapes.pacman.move();
 
-        const rows = 29;
-        const cols = 26;
-        const factor = 0.1
-        const sep = 5;
-        // Place the tokens
-        for (let r = 0; r < rows; r += 1) {
-            for (let c = 0; c < cols; c += 1) {
-                let model_transform = Mat4.identity().times(Mat4.scale(factor, factor, factor)).times(Mat4.translation(r * sep, c * sep, 0))
-                this.shapes.token.draw(context, program_state, model_transform, this.materials.token)
-            }
-        };
+        //Place the tokens
+        this.shapes.tokens.draw(context, program_state);
     }
 }
