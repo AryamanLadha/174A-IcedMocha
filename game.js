@@ -14,7 +14,7 @@ export class Game extends Scene {
         super();
 
         this.speed = 0.05;
-        this.pacman_scale = Mat4.identity().times(Mat4.scale(0.9, 0.9, 0.9));
+        this.pacman_scale = Mat4.identity().times(Mat4.scale(1, 1, 1));
         const initPosition = Mat4.identity().times(Mat4.translation(2, 10, 0)).times(this.pacman_scale);
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
@@ -32,11 +32,110 @@ export class Game extends Scene {
         this.initial_camera_location = Mat4.look_at(vec3(-10, -10, 10), vec3(0, 0, 0), vec3(1, 1, 0));
     }
 
+    // Going up can mean different things based on the direction you are currently moving in.
+    handleUp(){
+        if (this.attached && this.attached()===null){
+            this.shapes.pacman.direction = 'w';
+            return;
+        }
+        switch(this.shapes.pacman.direction){
+            case 'w':
+                this.shapes.pacman.direction = 'w';
+                break;
+            case 's':
+                this.shapes.pacman.direction = "s";
+                break;
+            case 'a':
+                this.shapes.pacman.direction = "a";
+                break;
+            case 'd':
+                this.shapes.pacman.direction = 'd';
+                break;
+            default:
+                this.shapes.pacman.direction = 'w';
+                break
+        }
+    }
+
+    handleDown(){
+        console.log(this.shapes.pacman.direction);
+        if (this.attached && this.attached()===null){
+            this.shapes.pacman.direction = 's';
+            return;
+        }
+        console.log(this.shapes.pacman.direction);
+        switch(this.shapes.pacman.direction){
+            case 'w':
+                this.shapes.pacman.direction = 's';
+                break;
+            case 's':
+                this.shapes.pacman.direction = "w";
+                break;
+            case 'a':
+                this.shapes.pacman.direction = "d";
+                break;
+            case 'd':
+                this.shapes.pacman.direction = 'a';
+                break;
+            default:
+                this.shapes.pacman.direction = 's';
+                break
+        }
+    }
+
+    handleLeft(){
+        if (this.attached && this.attached()===null){
+            this.shapes.pacman.direction = 'a';
+            return;
+        }
+        switch(this.shapes.pacman.direction){
+            case 'w':
+                this.shapes.pacman.direction = 'a';
+                break;
+            case 's':
+                this.shapes.pacman.direction = "d";
+                break;
+            case 'a':
+                this.shapes.pacman.direction = "s";
+                break;
+            case 'd':
+                this.shapes.pacman.direction = 'w';
+                break;
+            default:
+                this.shapes.pacman.direction = 'a';
+                break
+        }
+    }
+
+    handleRight(){
+        if (this.attached && this.attached()===null){
+            this.shapes.pacman.direction = 'd';
+            return;
+        }
+        switch(this.shapes.pacman.direction){
+            case 'w':
+                this.shapes.pacman.direction = 'd';
+                break;
+            case 's':
+                this.shapes.pacman.direction = "a";
+                break;
+            case 'a':
+                this.shapes.pacman.direction = "w";
+                break;
+            case 'd':
+                this.shapes.pacman.direction = 's';
+                break;
+            default:
+                this.shapes.pacman.direction = 'd';
+                break
+        }
+    }
+
     make_control_panel() {
-        this.key_triggered_button("Up", ["w"], () => { this.shapes.pacman.direction = "w" });
-        this.key_triggered_button("Down", ["s"], () => { this.shapes.pacman.direction = "s" });
-        this.key_triggered_button("Left", ["a"], () => { this.shapes.pacman.direction = "a" });
-        this.key_triggered_button("Right", ["d"], () => { this.shapes.pacman.direction = "d" });
+        this.key_triggered_button("Up", ["w"], this.handleUp);
+        this.key_triggered_button("Down", ["s"], this.handleDown);
+        this.key_triggered_button("Left", ["a"], this.handleLeft);
+        this.key_triggered_button("Right", ["d"], this.handleRight);
         this.key_triggered_button("Stop", ["z"], () => { this.shapes.pacman.direction = "z" });
         this.new_line();
         this.key_triggered_button("Bird's Eye View", ["b"], () => this.attached = () => null);
@@ -68,13 +167,17 @@ export class Game extends Scene {
                 break;
         }
 
+        const blending_factor = 0.5;
         if (this.attached && this.attached() !== null) {
             desired = this.pacman_scale.times(this.shapes.pacman.position).times(matrix);
             desired = Mat4.inverse(desired);
-            let blending_factor = 0.1;
             desired = desired.map((x, i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
             if (this.shapes.pacman.direction !== 'z')
                 program_state.set_camera(desired);
+        } else{
+            let desired = this.initial_camera_location;
+            desired = desired.map((x, i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
+            program_state.set_camera(desired);
         }
 
     }
