@@ -15,7 +15,8 @@ export class Game extends Scene {
 
         this.speed = 0.05;
         this.pacman_scale = Mat4.identity().times(Mat4.scale(1, 1, 1));
-        const initPosition = Mat4.identity().times(Mat4.translation(2, 10, 0)).times(this.pacman_scale);
+        const initPosition = Mat4.identity().times(Mat4.translation(18, 28, 0)).times(this.pacman_scale);
+        this.attached = false;
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
@@ -29,12 +30,12 @@ export class Game extends Scene {
                     { ambient: 1, diffusivity: .6, color: hex_color("#ffffff") }),
             }
 
-        this.initial_camera_location = Mat4.look_at(vec3(-10, -10, 10), vec3(0, 0, 0), vec3(1, 1, 0));
+        this.initial_camera_location = Mat4.look_at(vec3(19, 30, 70), vec3(19, 30, 0), vec3(0, 50, 0));
     }
 
     // Going up can mean different things based on the direction you are currently moving in.
     handleUp(){
-        if (this.attached && this.attached()===null){
+        if (!this.attached){
             this.shapes.pacman.direction = 'w';
             return;
         }
@@ -59,7 +60,7 @@ export class Game extends Scene {
 
     handleDown(){
         console.log(this.shapes.pacman.direction);
-        if (this.attached && this.attached()===null){
+        if (!this.attached){
             this.shapes.pacman.direction = 's';
             return;
         }
@@ -84,7 +85,7 @@ export class Game extends Scene {
     }
 
     handleLeft(){
-        if (this.attached && this.attached()===null){
+        if (!this.attached){
             this.shapes.pacman.direction = 'a';
             return;
         }
@@ -108,7 +109,7 @@ export class Game extends Scene {
     }
 
     handleRight(){
-        if (this.attached && this.attached()===null){
+        if (!this.attached){
             this.shapes.pacman.direction = 'd';
             return;
         }
@@ -138,8 +139,8 @@ export class Game extends Scene {
         this.key_triggered_button("Right", ["d"], this.handleRight);
         this.key_triggered_button("Stop", ["z"], () => { this.shapes.pacman.direction = "z" });
         this.new_line();
-        this.key_triggered_button("Bird's Eye View", ["b"], () => this.attached = () => null);
-        this.key_triggered_button("Pac-Man View", ["c"], () => this.attached = () => this.shapes.pacman.direction);
+        this.key_triggered_button("Bird's Eye View", ["b"], () => this.attached = false);
+        this.key_triggered_button("Pac-Man View", ["c"], () => this.attached = true);
     }
 
     move_camera(program_state) {
@@ -168,7 +169,7 @@ export class Game extends Scene {
         }
 
         const blending_factor = 0.5;
-        if (this.attached && this.attached() !== null) {
+        if (this.attached) {
             desired = this.pacman_scale.times(this.shapes.pacman.position).times(matrix);
             desired = Mat4.inverse(desired);
             desired = desired.map((x, i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));

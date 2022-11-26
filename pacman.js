@@ -10,7 +10,7 @@ const {
 
 export default class PacMan extends Actor {
     constructor(speed, initPosition) {
-        let direction = "f";
+        let direction = "d";
         const info = {
             shape: new defs.Subdivision_Sphere(4),
             materials: new Material(new defs.Phong_Shader(),
