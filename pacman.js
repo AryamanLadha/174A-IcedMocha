@@ -9,18 +9,19 @@ const {
 // speed = 0
 
 export default class PacMan extends Actor {
-    constructor(speed) {
-        let direction = "f";
+    constructor(speed, initPosition) {
+        let direction = "d";
         const info = {
             shape: new defs.Subdivision_Sphere(4),
             materials: new Material(new defs.Phong_Shader(),
                 { ambient: 0.4, diffusivity: 0.8, color: hex_color("#fac91a") }),
         }
         super(info, Mat4.identity(), direction, speed);
+        this.position = initPosition;
     }
 
-    draw(context, program_state, model_transform, materials) {
-        this.info.shape.draw(context, program_state, model_transform.times(this.position), materials);
+    draw(context, program_state, materials) {
+        this.info.shape.draw(context, program_state, this.position, materials);
     }
 
     move() {

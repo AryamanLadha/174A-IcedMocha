@@ -1,5 +1,4 @@
 
-import { model } from 'mongoose';
 import { defs, tiny } from './examples/common.js';
 import Gouraud_Shader from "./gourad-shader.js"
 
