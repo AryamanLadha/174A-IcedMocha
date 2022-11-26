@@ -139,8 +139,8 @@ export class Game extends Scene {
         this.key_triggered_button("Right", ["d"], this.handleRight);
         this.key_triggered_button("Stop", ["z"], () => { this.shapes.pacman.direction = "z" });
         this.new_line();
-        this.key_triggered_button("Bird's Eye View", ["b"], () => this.attached = false);
-        this.key_triggered_button("Pac-Man View", ["c"], () => this.attached = true);
+        this.key_triggered_button("Bird's Eye View", [","], () => this.attached = false);
+        this.key_triggered_button("Pac-Man View", ["."], () => this.attached = true);
     }
 
     move_camera(program_state) {
