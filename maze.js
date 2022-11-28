@@ -230,7 +230,7 @@ export default class Maze {
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
-        this.wall.draw(context, program_state, model_transform, this.material);
+
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
