@@ -109,8 +109,9 @@ export class Shape_From_File_2 extends Shape {                                  
 }
 
 // (18, 38, 0) translation is top of opening of ghost pen
+// Initial : (17, 34, 0)), (17, 32, 0)), (19, 34, 0)), (19, 32, 0))
 export default class Ghost extends Actor {
-    constructor(speed, initPosition) {
+    constructor(speed, initPosition, number) {
         let direction = "d";
         const info = {
             shape: new Shape_From_File_2("assets/ghost.obj"),
@@ -119,13 +120,42 @@ export default class Ghost extends Actor {
         }
         super(info, Mat4.identity(), direction, speed);
         this.position = initPosition;
+        this.number = number;
+        // console.log(translation);
+        // console.log(initPosition);
     }
 
     draw(context, program_state, materials) {
         this.info.shape.draw(context, program_state, this.position, materials);
     }
 
-    move(){
-        
+    init_move(){
+        let matrix = Mat4.identity();
+        switch (this.number){
+            case 1:
+            case 2:
+                if (Math.floor(this.position[0][3]) != 18){ 
+                    matrix = Mat4.translation(this.speed, 0, 0);
+                }
+                else if (Math.floor(this.position[1][3]) != 38){
+                    matrix = Mat4.translation(0, this.speed, 0);
+                }
+                else {
+                    matrix = Mat4.translation(0, 0, 0);
+                }
+                break;
+            case 3:
+            case 4:
+                if (Math.ceil(this.position[0][3]) != 18) 
+                    matrix = Mat4.translation(-this.speed, 0, 0);
+                else if (Math.floor(this.position[1][3]) != 38)
+                    matrix = Mat4.translation(0, this.speed, 0);
+                else 
+                    matrix = Mat4.translation(0, 0, 0);
+                break;
+            default:
+                matrix = Mat4.translation(0,0,0);
+        }
+        this.position = this.position.times(matrix);
     }
 }

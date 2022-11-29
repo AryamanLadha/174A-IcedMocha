@@ -29,10 +29,10 @@ export class Game extends Scene {
             tokens: new Tokens(),
             maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
             pacman: new PacMan(this.speed, initPosition),
-            ghost1: new Ghost(this.speed, ghost_initPosition1),
-            ghost2: new Ghost(this.speed, ghost_initPosition2),
-            ghost3: new Ghost(this.speed, ghost_initPosition3),
-            ghost4: new Ghost(this.speed, ghost_initPosition4),
+            ghost1: new Ghost(this.speed, ghost_initPosition1, 1),
+            ghost2: new Ghost(this.speed, ghost_initPosition2, 2),
+            ghost3: new Ghost(this.speed, ghost_initPosition3, 3),
+            ghost4: new Ghost(this.speed, ghost_initPosition4, 4)
         },
             // *** Materials
             this.materials = {
@@ -218,6 +218,16 @@ export class Game extends Scene {
         this.shapes.ghost2.draw(context, program_state, this.materials.test.override({ color: white }));
         this.shapes.ghost3.draw(context, program_state, this.materials.test.override({ color: white }));
         this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }));
+
+        let init = true;
+        // if (init){
+        this.shapes.ghost1.init_move();
+        this.shapes.ghost2.init_move();
+        this.shapes.ghost3.init_move();
+        this.shapes.ghost4.init_move();
+            // init = false;
+        // }
+        
 
         // Place pacman
         const yellow = hex_color("#fac91a");
