@@ -18,11 +18,21 @@ export class Game extends Scene {
         const initPosition = Mat4.identity().times(Mat4.translation(18, 28, 0)).times(this.pacman_scale);
         this.attached = false;
 
+        this.ghost_scale = Mat4.identity().times(Mat4.scale(0.6, 0.6, 0.6));
+        const ghost_initPosition1 = Mat4.identity().times(Mat4.translation(17, 34, 0)).times(this.ghost_scale);
+        const ghost_initPosition2 = Mat4.identity().times(Mat4.translation(17, 32, 0)).times(this.ghost_scale);
+        const ghost_initPosition3 = Mat4.identity().times(Mat4.translation(19, 34, 0)).times(this.ghost_scale);
+        const ghost_initPosition4 = Mat4.identity().times(Mat4.translation(19, 32, 0)).times(this.ghost_scale);
+
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
             tokens: new Tokens(),
             maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
             pacman: new PacMan(this.speed, initPosition),
+            ghost1: new Ghost(this.speed, ghost_initPosition1),
+            ghost2: new Ghost(this.speed, ghost_initPosition2),
+            ghost3: new Ghost(this.speed, ghost_initPosition3),
+            ghost4: new Ghost(this.speed, ghost_initPosition4),
         },
             // *** Materials
             this.materials = {
@@ -202,6 +212,12 @@ export class Game extends Scene {
         // Place the maze
         this.shapes.maze.draw(context, program_state);
 
+        // Place one ghost
+        const white = hex_color("#FFFFFF");
+        this.shapes.ghost1.draw(context, program_state, this.materials.test.override({ color: white }));
+        this.shapes.ghost2.draw(context, program_state, this.materials.test.override({ color: white }));
+        this.shapes.ghost3.draw(context, program_state, this.materials.test.override({ color: white }));
+        this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }));
 
         // Place pacman
         const yellow = hex_color("#fac91a");
@@ -215,3 +231,4 @@ export class Game extends Scene {
 
     }
 }
+
