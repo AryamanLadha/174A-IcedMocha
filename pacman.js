@@ -26,6 +26,10 @@ export default class PacMan extends Actor {
 
     move() {
         let matrix = Mat4.identity();
+        const y = this.position[1][3];
+        const x = this.position[0][3];
+        const adjusted_y = ((Math.floor(y)%2) === 1) ? Math.floor(y)+1 : Math.floor(y)
+        const adjusted_x = ((Math.floor(x)%2) === 1) ? Math.floor(x)+1 : Math.floor(x)
         switch (this.direction) {
             // up
             case 'w':
@@ -48,6 +52,12 @@ export default class PacMan extends Actor {
                 break;
         }
         this.position = this.position.times(matrix);
+        if(this.direction === 'a' || this.direction === 'd'){
+            this.position[1][3] = adjusted_y
+        }
+        else if(this.direction === 'w' || this.direction === 's'){
+            this.position[0][3] = adjusted_x
+        }
     }
 
 }
