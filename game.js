@@ -209,82 +209,82 @@ export class Game extends Scene {
         for (let i = 0; i < this.ghost_positions.length; i++){
             let ghost_x = this.ghost_positions[i][0][3];
             let ghost_y = this.ghost_positions[i][1][3];
-            // console.log(ghost_y);
-            // console.log(Math.abs(pacman_y - ghost_y));
 
-            if (Math.abs(pacman_y - ghost_y) < 2 && (pacman_x === ghost_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s")){
-                // console.log("bump")
-                // this.init = true;
+            let y_collision = false;
+            let x_collision = false;
+
+            if (Math.abs(pacman_y - ghost_y) < 2 && (pacman_x === ghost_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s" || this.shapes.pacman.direction == "z"))
+                y_collision = true;
+            else if (Math.abs(pacman_x - ghost_x)<2 && (pacman_y === ghost_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d" || this.shapes.pacman.direction == "z"))
+                x_collision = true;
+
+            if (y_collision || x_collision){
                 dir =  Math.random() >= 0.5 ? 3 : 4;
-                if (i == 0) {
-                    this.shapes.ghost1.position = this.opening;
-                    this.shapes.ghost1.dir = dir;
-                    // this.shapes.ghost1.init_move(this);
-                    // this.init = false;
-                    break;
+                switch (i){
+                    case 0:
+                        this.shapes.ghost1.position = this.opening;
+                        this.shapes.ghost1.dir = dir;
+                        break;
+                    case 1:
+                        this.shapes.ghost2.position = this.opening;
+                        this.shapes.ghost2.dir = dir;
+                        break;
+                    case 2:
+                        this.shapes.ghost3.position = this.opening;
+                        this.shapes.ghost3.dir = dir;
+                        break;
+                    case 3:
+                        this.shapes.ghost4.position = this.opening;
+                        this.shapes.ghost4.dir = dir;
+                        break;
                 }
-                else if (i == 1){
-                    this.shapes.ghost2.position = this.opening;
-                    this.shapes.ghost2.dir = dir;
-                    // this.shapes.ghost2.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
-                else if (i == 2) {
-                    this.shapes.ghost3.position = this.opening;
-                    this.shapes.ghost3.dir = dir;
-                    // this.shapes.ghost3.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
-                else if (i == 3) {
-                    this.shapes.ghost4.position = this.opening;
-                    this.shapes.ghost4.dir = dir;
-                    // this.shapes.ghost4.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
+                x_collision = false;
+                y_collision = false;
             }
+
+            // if (Math.abs(pacman_y - ghost_y) < 2 && (pacman_x === ghost_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s")){
+            //     dir =  Math.random() >= 0.5 ? 3 : 4;
+                
+            //     if (i == 0) {
+            //         this.shapes.ghost1.position = this.opening;
+            //         this.shapes.ghost1.dir = dir;
+            //     }
+            //     else if (i == 1){
+            //         this.shapes.ghost2.position = this.opening;
+            //         this.shapes.ghost2.dir = dir;
+            //     }
+            //     else if (i == 2) {
+            //         this.shapes.ghost3.position = this.opening;
+            //         this.shapes.ghost3.dir = dir;
+            //     }
+            //     else if (i == 3) {
+            //         this.shapes.ghost4.position = this.opening;
+            //         this.shapes.ghost4.dir = dir;
+            //     }
+            // }
 
             // colliison from right or left
-            else if(Math.abs(pacman_x - pacman_y)<2 && (pacman_y === ghost_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d")){
-                // console.log("bump22")
-                // this.init = true;
-                dir =  Math.random() >= 0.5 ? 3 : 4;
-                if (i == 0){
-                    this.shapes.ghost1.position = this.opening;
-                    this.shapes.ghost1.dir = dir;
-                    // this.shapes.ghost1.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
-                else if (i == 1) {
-                    this.shapes.ghost2.position = this.opening;
-                    this.shapes.ghost2.dir = dir;
-                    // this.shapes.ghost2.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
-                else if (i == 2) {
-                    this.shapes.ghost3.position = this.opening;
-                    this.shapes.ghost3.dir = dir;
-                    // this.shapes.ghost3.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
-                else if (i == 3) {
-                    this.shapes.ghost4.position = this.opening;
-                    this.shapes.ghost4.dir = dir;
-                    // this.shapes.ghost4.init_move(this);
-                    // this.init = false;
-                    // break;
-                }
-                    // this.init = false;
-                // this.direction = "z";
-                // this.move(this.direction)
-                // detected = true;
-                // break;
-            }
+            // else if(Math.abs(pacman_x - pacman_y)<2 && (pacman_y === ghost_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d")){
+            //     // console.log("bump22")
+            //     // this.init = true;
+            //     dir =  Math.random() >= 0.5 ? 3 : 4;
+            //     if (i == 0){
+            //         this.shapes.ghost1.position = this.opening;
+            //         this.shapes.ghost1.dir = dir;
+            //     }
+            //     else if (i == 1) {
+            //         this.shapes.ghost2.position = this.opening;
+            //         this.shapes.ghost2.dir = dir;
+            //     }
+            //     else if (i == 2) {
+            //         this.shapes.ghost3.position = this.opening;
+            //         this.shapes.ghost3.dir = dir;
+            //     }
+            //     else if (i == 3) {
+            //         this.shapes.ghost4.position = this.opening;
+            //         this.shapes.ghost4.dir = dir;
+            //     }
+            // }
         }
     }
     
