@@ -19,6 +19,7 @@ export class Game extends Scene {
         this.attached = false;
 
         this.ghost_scale = Mat4.identity().times(Mat4.scale(0.6, 0.6, 0.6));
+        const opening = Mat4.identity().times(Mat4.translation(18, 38, 0)).times(this.ghost_scale);
         const ghost_initPosition1 = Mat4.identity().times(Mat4.translation(17, 34, 0)).times(this.ghost_scale);
         const ghost_initPosition2 = Mat4.identity().times(Mat4.translation(17, 32, 0)).times(this.ghost_scale);
         const ghost_initPosition3 = Mat4.identity().times(Mat4.translation(19, 34, 0)).times(this.ghost_scale);
@@ -42,6 +43,10 @@ export class Game extends Scene {
 
         this.initial_camera_location = Mat4.look_at(vec3(19, 30, 70), vec3(19, 30, 0), vec3(0, 50, 0));
         this.init = true;
+        this.ghost_inits = [ghost_initPosition1, ghost_initPosition2, ghost_initPosition3, ghost_initPosition4];
+        this.ghost_positions = [this.shapes.ghost1.position, this.shapes.ghost2.position, this.shapes.ghost3.position, this.shapes.ghost4.position];
+        this.opening = opening;
+
     }
 
     // Going up can mean different things based on the direction you are currently moving in.
@@ -194,6 +199,96 @@ export class Game extends Scene {
 
     }
 
+    pacman_ghost_collision_detection(){
+        // let detected = true;
+        let pacman_x = this.shapes.pacman.position[0][3];
+        let pacman_y = this.shapes.pacman.position[1][3];
+
+        let dir;
+
+        for (let i = 0; i < this.ghost_positions.length; i++){
+            let ghost_x = this.ghost_positions[i][0][3];
+            let ghost_y = this.ghost_positions[i][1][3];
+            // console.log(ghost_y);
+            // console.log(Math.abs(pacman_y - ghost_y));
+
+            if (Math.abs(pacman_y - ghost_y) < 2 && (pacman_x === ghost_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s")){
+                // console.log("bump")
+                // this.init = true;
+                dir =  Math.random() >= 0.5 ? 3 : 4;
+                if (i == 0) {
+                    this.shapes.ghost1.position = this.opening;
+                    this.shapes.ghost1.dir = dir;
+                    // this.shapes.ghost1.init_move(this);
+                    // this.init = false;
+                    break;
+                }
+                else if (i == 1){
+                    this.shapes.ghost2.position = this.opening;
+                    this.shapes.ghost2.dir = dir;
+                    // this.shapes.ghost2.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+                else if (i == 2) {
+                    this.shapes.ghost3.position = this.opening;
+                    this.shapes.ghost3.dir = dir;
+                    // this.shapes.ghost3.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+                else if (i == 3) {
+                    this.shapes.ghost4.position = this.opening;
+                    this.shapes.ghost4.dir = dir;
+                    // this.shapes.ghost4.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+            }
+
+            // colliison from right or left
+            else if(Math.abs(pacman_x - pacman_y)<2 && (pacman_y === ghost_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d")){
+                // console.log("bump22")
+                // this.init = true;
+                dir =  Math.random() >= 0.5 ? 3 : 4;
+                if (i == 0){
+                    this.shapes.ghost1.position = this.opening;
+                    this.shapes.ghost1.dir = dir;
+                    // this.shapes.ghost1.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+                else if (i == 1) {
+                    this.shapes.ghost2.position = this.opening;
+                    this.shapes.ghost2.dir = dir;
+                    // this.shapes.ghost2.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+                else if (i == 2) {
+                    this.shapes.ghost3.position = this.opening;
+                    this.shapes.ghost3.dir = dir;
+                    // this.shapes.ghost3.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+                else if (i == 3) {
+                    this.shapes.ghost4.position = this.opening;
+                    this.shapes.ghost4.dir = dir;
+                    // this.shapes.ghost4.init_move(this);
+                    // this.init = false;
+                    // break;
+                }
+                    // this.init = false;
+                // this.direction = "z";
+                // this.move(this.direction)
+                // detected = true;
+                // break;
+            }
+        }
+    }
+    
+
     display(context, program_state) {
         // display():  Called once per frame of animation.
         // Setup -- This part sets up the scene's overall camera matrix, projection matrix, and lights:
@@ -212,9 +307,6 @@ export class Game extends Scene {
 
         // Place the maze
         this.shapes.maze.draw(context, program_state);
-        // console.log("MAZE:");
-        // console.log(this.shapes.maze.walls[0]);
-        // console.log(this.shapes.maze.walls[1]);
 
         // Place one ghost
         const white = hex_color("#FFFFFF");
@@ -233,30 +325,33 @@ export class Game extends Scene {
             // this.init = false;
         } else{
             this.shapes.ghost1.collision_detection(this.shapes.maze.walls);
+            this.ghost_positions[0] = this.shapes.ghost1.position;
+            
             this.shapes.ghost2.collision_detection(this.shapes.maze.walls);
-            this.shapes.ghost3.collision_detection(this.shapes.maze.walls);
-            this.shapes.ghost4.collision_detection(this.shapes.maze.walls);
-        }
-        // console.log("TOKENS:");
-        // console.log(this.shapes.tokens.tokens[0]);
-        
-        // console.log(t);
+            this.ghost_positions[1] = this.shapes.ghost2.position;
 
-        // if (!init && Math.floor(dt) % 5000 == 0)
-        // console.log(`The length of the maze walls array is ${this.shapes.maze.walls[58]}`)
+            this.shapes.ghost3.collision_detection(this.shapes.maze.walls);
+            this.ghost_positions[2] = this.shapes.ghost3.position;
+
+            this.shapes.ghost4.collision_detection(this.shapes.maze.walls);
+            this.ghost_positions[3] = this.shapes.ghost4.position;
+
+            this.pacman_ghost_collision_detection(this.ghost_positions);
+        }
        
-        
 
         // Place pacman
         const yellow = hex_color("#fac91a");
         this.shapes.pacman.draw(context, program_state, this.materials.test.override({ color: yellow }));
-        // this.shapes.pacman.move();
         this.shapes.pacman.collision_detection(this.shapes.maze.walls);
 
         //Place the tokens
         this.shapes.tokens.draw(context, program_state);
         // Camera that follows PacMan in a POV-style
         this.move_camera(program_state);
+
+        
+        // console.log(this.ghost_positions);
 
     }
 }

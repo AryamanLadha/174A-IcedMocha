@@ -125,6 +125,7 @@ export default class Ghost extends Actor {
         this.hor_collision = false;
         this.vert_collision = false;
         this.dir = 1;
+        
     }
 
     draw(context, program_state, materials) {
@@ -134,9 +135,11 @@ export default class Ghost extends Actor {
 
     init_move(game){
         let matrix = Mat4.identity();
+        
         switch (this.number){
             case 1:
             case 2:
+                // console.log("case 1")
                 if (Math.floor(this.position[0][3]) != 18){ 
                     matrix = Mat4.translation(this.speed, 0, 0);
                 }
@@ -153,13 +156,16 @@ export default class Ghost extends Actor {
             case 3:
             case 4:
                 if (Math.ceil(this.position[0][3]) != 18) {
+                    // console.log("case 2.1")
                     matrix = Mat4.translation(-this.speed, 0, 0);
                 }
                 else if (Math.floor(this.position[1][3]) != 38){
+                    // console.log("case 2.2")
                     matrix = Mat4.translation(0, this.speed, 0);
                 }
-                else 
+                else {
                     matrix = Mat4.translation(0, 0, 0);
+                }
                 break;
             default:
                 matrix = Mat4.translation(0,0,0);

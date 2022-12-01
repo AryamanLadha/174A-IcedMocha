@@ -32,7 +32,6 @@ export default class PacMan extends Actor {
 
             let maze_x = all_mazes[i][0];
             let maze_y = all_mazes[i][1];
-            //console.log(`Maze location is: ${maze_x}, ${maze_y}`)
 
             let x_loc = this.position[0][3];
             let y_loc = this.position[1][3];
@@ -45,6 +44,7 @@ export default class PacMan extends Actor {
                 break;
             }
 
+            // colliison from right or left
             else if(Math.abs(x_loc-maze_x)<2 && (y_loc === maze_y) && (this.direction == "a" || this.direction == "d")){
                 this.direction = "z";
                 this.move(this.direction)
@@ -81,7 +81,6 @@ export default class PacMan extends Actor {
                 matrix = Mat4.translation(this.speed, 0, 0);
                 break;
             default:
-                console.log("here");
                 matrix = Mat4.translation(0, 0, 0);
                 break;
         }
