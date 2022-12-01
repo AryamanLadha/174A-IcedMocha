@@ -224,7 +224,6 @@ export class Game extends Scene {
         this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }));
 
         // Move ghosts out of pen
-        
         if (this.init){
             // console.log("true");
             this.shapes.ghost1.init_move(this);
@@ -251,7 +250,8 @@ export class Game extends Scene {
         // Place pacman
         const yellow = hex_color("#fac91a");
         this.shapes.pacman.draw(context, program_state, this.materials.test.override({ color: yellow }));
-        this.shapes.pacman.move();
+        // this.shapes.pacman.move();
+        this.shapes.pacman.collision_detection(this.shapes.maze.walls);
 
         //Place the tokens
         this.shapes.tokens.draw(context, program_state);

@@ -197,7 +197,7 @@ export default class Ghost extends Actor {
                 dir =  Math.random() >= 0.5 ? 3 : 4;
                 // console.log(`Direction to move is: ${dir}`)
                 this.dir = dir;
-                console.log('Chose a random direction to move in' + this.dir);
+                // console.log('Chose a random direction to move in' + this.dir);
                 this.move(this.dir)
                 detected = true;
                 break;
@@ -255,11 +255,11 @@ export default class Ghost extends Actor {
         }
 
         if(this.dir === 3 || this.dir === 4){
-            console.log('adjusting y');
+            // console.log('adjusting y');
             this.position[1][3] = adjusted_y
         }
         else if(this.dir === 1 || this.dir === 2){
-            console.log('adjusting x');
+            // console.log('adjusting x');
             this.position[0][3] = adjusted_x
         }
     }
