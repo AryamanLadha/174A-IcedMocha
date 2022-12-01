@@ -187,7 +187,6 @@ export default class Ghost extends Actor {
 
             let maze_x = all_mazes[i][0];
             let maze_y = all_mazes[i][1];
-            //console.log(`Maze location is: ${maze_x}, ${maze_y}`)
 
             let x_loc = this.position[0][3];
             let y_loc = this.position[1][3];

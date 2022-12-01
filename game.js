@@ -199,8 +199,8 @@ export class Game extends Scene {
 
     }
 
-    pacman_ghost_collision_detection(){
-        // let detected = true;
+    // Pacman eats the ghosts
+    pacman_eats_ghost_collision_detection(){
         let pacman_x = this.shapes.pacman.position[0][3];
         let pacman_y = this.shapes.pacman.position[1][3];
 
@@ -241,50 +241,34 @@ export class Game extends Scene {
                 x_collision = false;
                 y_collision = false;
             }
+        }
+    }
 
-            // if (Math.abs(pacman_y - ghost_y) < 2 && (pacman_x === ghost_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s")){
-            //     dir =  Math.random() >= 0.5 ? 3 : 4;
-                
-            //     if (i == 0) {
-            //         this.shapes.ghost1.position = this.opening;
-            //         this.shapes.ghost1.dir = dir;
-            //     }
-            //     else if (i == 1){
-            //         this.shapes.ghost2.position = this.opening;
-            //         this.shapes.ghost2.dir = dir;
-            //     }
-            //     else if (i == 2) {
-            //         this.shapes.ghost3.position = this.opening;
-            //         this.shapes.ghost3.dir = dir;
-            //     }
-            //     else if (i == 3) {
-            //         this.shapes.ghost4.position = this.opening;
-            //         this.shapes.ghost4.dir = dir;
-            //     }
-            // }
+    // Ghosts eat pacman
+    ghost_eat_pacman_collision_detection(){
+        let pacman_x = this.shapes.pacman.position[0][3];
+        let pacman_y = this.shapes.pacman.position[1][3];
 
-            // colliison from right or left
-            // else if(Math.abs(pacman_x - pacman_y)<2 && (pacman_y === ghost_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d")){
-            //     // console.log("bump22")
-            //     // this.init = true;
-            //     dir =  Math.random() >= 0.5 ? 3 : 4;
-            //     if (i == 0){
-            //         this.shapes.ghost1.position = this.opening;
-            //         this.shapes.ghost1.dir = dir;
-            //     }
-            //     else if (i == 1) {
-            //         this.shapes.ghost2.position = this.opening;
-            //         this.shapes.ghost2.dir = dir;
-            //     }
-            //     else if (i == 2) {
-            //         this.shapes.ghost3.position = this.opening;
-            //         this.shapes.ghost3.dir = dir;
-            //     }
-            //     else if (i == 3) {
-            //         this.shapes.ghost4.position = this.opening;
-            //         this.shapes.ghost4.dir = dir;
-            //     }
-            // }
+        let dir;
+
+        for (let i = 0; i < this.ghost_positions.length; i++){
+            let ghost_x = this.ghost_positions[i][0][3];
+            let ghost_y = this.ghost_positions[i][1][3];
+
+            let y_collision = false;
+            let x_collision = false;
+
+            if (Math.abs(pacman_y - ghost_y) < 2 && (pacman_x === ghost_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s" || this.shapes.pacman.direction == "z"))
+                y_collision = true;
+            else if (Math.abs(pacman_x - ghost_x)<2 && (pacman_y === ghost_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d" || this.shapes.pacman.direction == "z"))
+                x_collision = true;
+
+            if (y_collision || x_collision){
+                // dir =  Math.random() >= 0.5 ? 3 : 4;
+                console.log("GAME OVER");
+                x_collision = false;
+                y_collision = false;
+            }
         }
     }
     
@@ -336,7 +320,8 @@ export class Game extends Scene {
             this.shapes.ghost4.collision_detection(this.shapes.maze.walls);
             this.ghost_positions[3] = this.shapes.ghost4.position;
 
-            this.pacman_ghost_collision_detection(this.ghost_positions);
+            // this.pacman_eats_ghost_collision_detection(this.ghost_positions);
+            this.ghost_eat_pacman_collision_detection(this.ghost_positions);
         }
        
 
@@ -350,8 +335,6 @@ export class Game extends Scene {
         // Camera that follows PacMan in a POV-style
         this.move_camera(program_state);
 
-        
-        // console.log(this.ghost_positions);
 
     }
 }
