@@ -121,8 +121,6 @@ export default class Ghost extends Actor {
         super(info, Mat4.identity(), direction, speed);
         this.position = initPosition;
         this.number = number;
-        // console.log(translation);
-        // console.log(initPosition);
     }
 
     draw(context, program_state, materials) {
@@ -131,6 +129,7 @@ export default class Ghost extends Actor {
 
     init_move(){
         let matrix = Mat4.identity();
+        // console.log(this.position);
         switch (this.number){
             case 1:
             case 2:
@@ -158,4 +157,102 @@ export default class Ghost extends Actor {
         }
         this.position = this.position.times(matrix);
     }
+
+    collision_detection(){
+        // test maze block at (18, 40) from (18, 38)
+        let maze_x = 18;
+        let maze_y = 40;
+
+        let matrix = Mat4.identity();
+
+        let x_loc = this.position[0][3];
+        let y_loc = this.position[1][3];
+
+        // collision
+        if (Math.abs(y_loc-maze_y) < 2){
+            // go right is pos, go left is neg except it doesnt work
+            console.log(this.speed);
+            matrix = Mat4.translation(-0.1, 0, 0);
+            this.position = this.position.times(matrix);
+        }
+        // else if (Math.abs(x_loc-maze_x) < 2){
+        //     // go up
+        //     console.log(this.speed);
+        //     matrix = Mat4.translation(0, this.speed, 0);
+        //     this.position = this.position.times(matrix);
+        // }
+
+
+    }
+
+    move(program_state){
+        let matrix = Mat4.identity();
+        let dir;
+
+        let min = Math.ceil(1);
+        let max = Math.floor(4);
+        
+        let bool = false;
+        let counter 
+        // console.log(Math.floor(program_state.animation_time / 1000));
+        if (Math.floor(program_state.animation_time / 1000) % 3 == 0){
+            bool = true;
+            console.log("now");
+        }
+        
+            // exit;
+            // console.log(dir);
+        if (bool){
+            dir =  Math.floor(Math.random() * (max - min + 1)) + min;
+            switch (dir){
+                // up
+                case 1:
+                    // for (let i = 0; i < 10; i++){
+                        matrix = Mat4.translation(0, 1, 0);
+                        this.position = this.position.times(matrix);
+                    // }
+                    
+                    break;
+                // down
+                case 2:
+                    // for (let i = 0; i < 10; i++){
+                        matrix = Mat4.translation(0, -1, 0);
+                        this.position = this.position.times(matrix);
+                    // }
+                    
+                    break;
+                // left
+                case 3:
+                    // for (let i = 0; i < 10; i++){
+                        matrix = Mat4.translation(-1, 0, 0);
+                        this.position = this.position.times(matrix);
+                    // }
+                    
+                    break;
+                // right
+                case 4:
+                //     // for (let i = 0; i < 10; i++){
+                        matrix = Mat4.translation(1, 0, 0);
+                        this.position = this.position.times(matrix);
+                //     // }
+                    
+                    break;
+                default:
+                    // matrix = Mat4.translation(1, 1, 0);
+                    break;
+            }
+            // this.position = this.position.times(matrix);
+            bool = false;
+        }
+        
+       
+        
+        // let dir = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+        // console.log(dir);
+        
+        // this.position = this.position.times(matrix);
+        
+    }
+
+
 }

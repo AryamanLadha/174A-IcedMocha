@@ -29,10 +29,10 @@ export class Game extends Scene {
             tokens: new Tokens(),
             maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
             pacman: new PacMan(this.speed, initPosition),
-            ghost1: new Ghost(this.speed, ghost_initPosition1, 1),
-            ghost2: new Ghost(this.speed, ghost_initPosition2, 2),
-            ghost3: new Ghost(this.speed, ghost_initPosition3, 3),
-            ghost4: new Ghost(this.speed, ghost_initPosition4, 4)
+            ghost1: new Ghost(this.speed*2, ghost_initPosition1, 1),
+            ghost2: new Ghost(this.speed*2, ghost_initPosition2, 2),
+            ghost3: new Ghost(this.speed*2, ghost_initPosition3, 3),
+            ghost4: new Ghost(this.speed*2, ghost_initPosition4, 4)
         },
             // *** Materials
             this.materials = {
@@ -41,6 +41,7 @@ export class Game extends Scene {
             }
 
         this.initial_camera_location = Mat4.look_at(vec3(19, 30, 70), vec3(19, 30, 0), vec3(0, 50, 0));
+        this.init = true;
     }
 
     // Going up can mean different things based on the direction you are currently moving in.
@@ -211,6 +212,9 @@ export class Game extends Scene {
 
         // Place the maze
         this.shapes.maze.draw(context, program_state);
+        // console.log("MAZE:");
+        // console.log(this.shapes.maze.walls[0]);
+        // console.log(this.shapes.maze.walls[1]);
 
         // Place one ghost
         const white = hex_color("#FFFFFF");
@@ -219,14 +223,23 @@ export class Game extends Scene {
         this.shapes.ghost3.draw(context, program_state, this.materials.test.override({ color: white }));
         this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }));
 
-        let init = true;
-        // if (init){
-        this.shapes.ghost1.init_move();
-        this.shapes.ghost2.init_move();
-        this.shapes.ghost3.init_move();
-        this.shapes.ghost4.init_move();
-            // init = false;
-        // }
+        // Move ghosts out of pen
+        
+        if (this.init){
+            // console.log("true");
+            this.shapes.ghost1.init_move();
+            // this.shapes.ghost2.init_move();
+            // this.shapes.ghost3.init_move();
+            // this.shapes.ghost4.init_move();
+            // this.init = false;
+        }
+        // console.log("TOKENS:");
+        // console.log(this.shapes.tokens.tokens[0]);
+        
+        // console.log(t);
+
+        // if (!init && Math.floor(dt) % 5000 == 0)
+        this.shapes.ghost1.collision_detection();
         
 
         // Place pacman
