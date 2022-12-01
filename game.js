@@ -29,10 +29,10 @@ export class Game extends Scene {
             tokens: new Tokens(),
             maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
             pacman: new PacMan(this.speed, initPosition),
-            ghost1: new Ghost(this.speed*2, ghost_initPosition1, 1),
-            ghost2: new Ghost(this.speed*2, ghost_initPosition2, 2),
-            ghost3: new Ghost(this.speed*2, ghost_initPosition3, 3),
-            ghost4: new Ghost(this.speed*2, ghost_initPosition4, 4)
+            ghost1: new Ghost(this.speed*3, ghost_initPosition1, 1),
+            ghost2: new Ghost(this.speed*3, ghost_initPosition2, 2),
+            ghost3: new Ghost(this.speed*3, ghost_initPosition3, 3),
+            ghost4: new Ghost(this.speed*3, ghost_initPosition4, 4)
         },
             // *** Materials
             this.materials = {
@@ -227,11 +227,16 @@ export class Game extends Scene {
         
         if (this.init){
             // console.log("true");
-            this.shapes.ghost1.init_move();
-            // this.shapes.ghost2.init_move();
-            // this.shapes.ghost3.init_move();
-            // this.shapes.ghost4.init_move();
+            this.shapes.ghost1.init_move(this);
+            this.shapes.ghost2.init_move(this);
+            this.shapes.ghost3.init_move(this);
+            this.shapes.ghost4.init_move(this);
             // this.init = false;
+        } else{
+            this.shapes.ghost1.collision_detection(this.shapes.maze.walls);
+            this.shapes.ghost2.collision_detection(this.shapes.maze.walls);
+            this.shapes.ghost3.collision_detection(this.shapes.maze.walls);
+            this.shapes.ghost4.collision_detection(this.shapes.maze.walls);
         }
         // console.log("TOKENS:");
         // console.log(this.shapes.tokens.tokens[0]);
@@ -239,7 +244,8 @@ export class Game extends Scene {
         // console.log(t);
 
         // if (!init && Math.floor(dt) % 5000 == 0)
-        this.shapes.ghost1.collision_detection();
+        // console.log(`The length of the maze walls array is ${this.shapes.maze.walls[58]}`)
+       
         
 
         // Place pacman

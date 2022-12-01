@@ -112,7 +112,7 @@ export class Shape_From_File_2 extends Shape {                                  
 // Initial : (17, 34, 0)), (17, 32, 0)), (19, 34, 0)), (19, 32, 0))
 export default class Ghost extends Actor {
     constructor(speed, initPosition, number) {
-        let direction = "d";
+        let direction = "w";
         const info = {
             shape: new Shape_From_File_2("assets/ghost.obj"),
             material: new Material(new defs.Phong_Shader(),
@@ -121,15 +121,19 @@ export default class Ghost extends Actor {
         super(info, Mat4.identity(), direction, speed);
         this.position = initPosition;
         this.number = number;
+        this.direction = "horizontal";
+        this.hor_collision = false;
+        this.vert_collision = false;
+        this.dir = 1;
     }
 
     draw(context, program_state, materials) {
+        // console.log(`${this.position[0][3]}, ${this.position[1][3]}`)
         this.info.shape.draw(context, program_state, this.position, materials);
     }
 
-    init_move(){
+    init_move(game){
         let matrix = Mat4.identity();
-        // console.log(this.position);
         switch (this.number){
             case 1:
             case 2:
@@ -139,16 +143,21 @@ export default class Ghost extends Actor {
                 else if (Math.floor(this.position[1][3]) != 38){
                     matrix = Mat4.translation(0, this.speed, 0);
                 }
+                else if((Math.floor(this.position[0][3]) === 18) && (Math.floor(this.position[1][3]) === 38)){
+                    game.init = false;
+                }
                 else {
                     matrix = Mat4.translation(0, 0, 0);
                 }
                 break;
             case 3:
             case 4:
-                if (Math.ceil(this.position[0][3]) != 18) 
+                if (Math.ceil(this.position[0][3]) != 18) {
                     matrix = Mat4.translation(-this.speed, 0, 0);
-                else if (Math.floor(this.position[1][3]) != 38)
+                }
+                else if (Math.floor(this.position[1][3]) != 38){
                     matrix = Mat4.translation(0, this.speed, 0);
+                }
                 else 
                     matrix = Mat4.translation(0, 0, 0);
                 break;
@@ -158,100 +167,101 @@ export default class Ghost extends Actor {
         this.position = this.position.times(matrix);
     }
 
-    collision_detection(){
+    collision_detection(all_mazes){
         // test maze block at (18, 40) from (18, 38)
-        let maze_x = 18;
-        let maze_y = 40;
+        // (26, 38) for left and right
+        // let maze_x = 18;
+        // let maze_y = 40;
+        // let maze_x2 = 26;
+        // let maze_y2 = 38;
+        let detected = false;
 
-        let matrix = Mat4.identity();
+        for (let i = 0; i < all_mazes.length; i++){
+            let matrix = Mat4.identity();
 
-        let x_loc = this.position[0][3];
-        let y_loc = this.position[1][3];
+            let maze_x = all_mazes[i][0];
+            let maze_y = all_mazes[i][1];
+            //console.log(`Maze location is: ${maze_x}, ${maze_y}`)
 
-        // collision
-        if (Math.abs(y_loc-maze_y) < 2){
-            // go right is pos, go left is neg except it doesnt work
-            console.log(this.speed);
-            matrix = Mat4.translation(-0.1, 0, 0);
-            this.position = this.position.times(matrix);
+            let x_loc = this.position[0][3];
+            let y_loc = this.position[1][3];
+
+            let dir;
+
+            // console.log(this.direction);
+            // collision from down to up
+            if (Math.abs(y_loc-maze_y) < 2 && (x_loc === maze_x) && (this.dir === 1 || this.dir === 2)){
+                // go right is pos, go left is neg except it doesnt work
+                // console.log(this.speed);
+                // this.hor_collsion = true;
+                dir =  Math.random() >= 0.5 ? 3 : 4;
+                // console.log(`Direction to move is: ${dir}`)
+                this.dir = dir;
+                console.log('Chose a random direction to move in' + this.dir);
+                this.move(this.dir)
+                detected = true;
+                break;
+            }
+
+            else if(Math.abs(x_loc-maze_x)<2 && (y_loc === maze_y) && (this.dir == 3 || this.dir == 4)){
+                // this.hor_collsion = true;
+                dir =  Math.random() >= 0.5 ? 1 : 2;
+                // console.log(`Direction to move is: ${dir}`)
+                this.dir = dir;
+                this.move(this.dir)
+                detected = true;
+                break;
+                // console.log('Chose a random direction to move in');
+            }
+
         }
-        // else if (Math.abs(x_loc-maze_x) < 2){
-        //     // go up
-        //     console.log(this.speed);
-        //     matrix = Mat4.translation(0, this.speed, 0);
-        //     this.position = this.position.times(matrix);
-        // }
-
-
+        if(!detected)
+            this.move(this.dir)
     }
 
-    move(program_state){
+    move(dir){
         let matrix = Mat4.identity();
-        let dir;
+        const y = this.position[1][3];
+        const x = this.position[0][3];
+        const adjusted_y = ((Math.floor(y)%2) === 1) ? Math.floor(y)+1 : Math.floor(y)
+        const adjusted_x = ((Math.floor(x)%2) === 1) ? Math.floor(x)+1 : Math.floor(x)
+        switch (dir){
+            // up
+            case 1:
+                matrix = Mat4.translation(0, this.speed, 0);
+                this.position = this.position.times(matrix);
+                break;
 
-        let min = Math.ceil(1);
-        let max = Math.floor(4);
-        
-        let bool = false;
-        let counter 
-        // console.log(Math.floor(program_state.animation_time / 1000));
-        if (Math.floor(program_state.animation_time / 1000) % 3 == 0){
-            bool = true;
-            console.log("now");
+            // down
+            case 2:
+                matrix = Mat4.translation(0, -this.speed, 0);
+                this.position = this.position.times(matrix);
+                break;
+
+            // left
+            case 3:
+                matrix = Mat4.translation(-this.speed, 0, 0);
+                this.position = this.position.times(matrix);
+                break;
+
+            // right
+            case 4:
+                matrix = Mat4.translation(this.speed, 0, 0);
+                this.position = this.position.times(matrix);
+                break;
+
+            default:
+                break;
         }
-        
-            // exit;
-            // console.log(dir);
-        if (bool){
-            dir =  Math.floor(Math.random() * (max - min + 1)) + min;
-            switch (dir){
-                // up
-                case 1:
-                    // for (let i = 0; i < 10; i++){
-                        matrix = Mat4.translation(0, 1, 0);
-                        this.position = this.position.times(matrix);
-                    // }
-                    
-                    break;
-                // down
-                case 2:
-                    // for (let i = 0; i < 10; i++){
-                        matrix = Mat4.translation(0, -1, 0);
-                        this.position = this.position.times(matrix);
-                    // }
-                    
-                    break;
-                // left
-                case 3:
-                    // for (let i = 0; i < 10; i++){
-                        matrix = Mat4.translation(-1, 0, 0);
-                        this.position = this.position.times(matrix);
-                    // }
-                    
-                    break;
-                // right
-                case 4:
-                //     // for (let i = 0; i < 10; i++){
-                        matrix = Mat4.translation(1, 0, 0);
-                        this.position = this.position.times(matrix);
-                //     // }
-                    
-                    break;
-                default:
-                    // matrix = Mat4.translation(1, 1, 0);
-                    break;
-            }
-            // this.position = this.position.times(matrix);
-            bool = false;
+
+        if(this.dir === 3 || this.dir === 4){
+            console.log('adjusting y');
+            this.position[1][3] = adjusted_y
         }
-        
-       
-        
-        // let dir = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-        // console.log(dir);
-        
-        // this.position = this.position.times(matrix);
-        
+        else if(this.dir === 1 || this.dir === 2){
+            console.log('adjusting x');
+            this.position[0][3] = adjusted_x
+        }
     }
 
 

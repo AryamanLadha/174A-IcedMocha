@@ -9,6 +9,7 @@ export default class Maze {
         this.wall = new defs.Cube;
         this.material = material;
 
+        this.wallsstored = false;
         this.walls = [];
     }
 
@@ -18,664 +19,668 @@ export default class Maze {
         let model_transform = Mat4.identity().times(Mat4.translation(0,8,0));
         for (let i = 0; i < 25; i += 1) {
             this.wall.draw(context, program_state, model_transform, this.material);
+            if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
             model_transform = model_transform.times(Mat4.translation(0, 2, 0))
 
-            this.walls.push(model_transform);
+            
         }
 
         //right
         model_transform = Mat4.identity().times(Mat4.translation(36,8,0))
         for (let i = 0; i < 25; i += 1) {
             this.wall.draw(context, program_state, model_transform, this.material);
+            if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
             model_transform = model_transform.times(Mat4.translation(0, 2, 0))
-
-            this.walls.push(model_transform);
         }
 
         //bottom
         model_transform = Mat4.identity().times(Mat4.translation(2,8,0));
         for (let i = 0; i < 17; i += 1) {
             this.wall.draw(context, program_state, model_transform, this.material);
+            if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
             model_transform = model_transform.times(Mat4.translation(2, 0, 0))
 
-            this.walls.push(model_transform);
+            
         }
 
         //top
         model_transform = Mat4.identity().times(Mat4.translation(2, 28*2, 0));
         for (let i = 0; i < 17;i += 1) {
             this.wall.draw(context, program_state, model_transform, this.material);
+            if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
             model_transform = model_transform.times(Mat4.translation(2, 0, 0))
 
-            this.walls.push(model_transform);
+            
         }
 
         // first layer
         model_transform = Mat4.identity().times(Mat4.translation(4, 50, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2, 0, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, 2, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2, 0, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(6, 0, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2, 0, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2, 0, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2, 0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2, 0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(8,4,0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0 ,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         //second layer
         model_transform = Mat4.identity().times(Mat4.translation(4, 46, 0))
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = Mat4.identity().times(Mat4.translation(10, 46, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0, -2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,6, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,4, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,-2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,8, 0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,-4,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-8,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-10,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(10,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,-6,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,-6,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(6,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(6,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,4,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-4,-2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(0,2,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-6,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
 
         model_transform = model_transform.times(Mat4.translation(-2,0,0));
         this.wall.draw(context, program_state, model_transform, this.material);
-        this.walls.push(model_transform);
+        if (!this.wallsstored) this.walls.push([model_transform[0][3], model_transform[1][3]]);
+
+        this.wallsstored = true;
     }
 }
