@@ -25,8 +25,8 @@ export default class Tokens{
         this.tokens = [];
 
         // Place the tokens
-        let model_transform = Mat4.identity().times(Mat4.translation(2,10,0)).times(Mat4.scale(this.factor, this.factor, this.factor))
-        for(let i = 0; i<17; i+=1){
+        let model_transform = Mat4.identity().times(Mat4.translation(4,10,0)).times(Mat4.scale(this.factor, this.factor, this.factor))
+        for(let i = 0; i<14; i+=1){
             // this.token.draw(context, program_state, model_transform, this.material);
             if (!this.tokenstored) this.tokens.push(model_transform)
             model_transform = model_transform.times(Mat4.translation(4,0,0));
@@ -67,11 +67,7 @@ export default class Tokens{
         // this.token.draw(context, program_state, model_transform, this.material);
         if (!this.tokenstored) this.tokens.push(model_transform)
 
-        model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        // this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push(model_transform)
-
-        model_transform = model_transform.times(Mat4.translation(0,-4,0));
+        model_transform = model_transform.times(Mat4.translation(-4,-4,0));
         // this.token.draw(context, program_state, model_transform, this.material);
         if (!this.tokenstored) this.tokens.push(model_transform)
 
@@ -408,19 +404,20 @@ export default class Tokens{
             if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
-        model_transform = model_transform.times(Mat4.translation(0,8,0));
+        model_transform = model_transform.times(Mat4.translation(0,4,0));
         for(let i=0; i<11; i+=1){
             // this.token.draw(context, program_state, model_transform, this.material);
             model_transform = model_transform.times(Mat4.translation(0,4,0));
             if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
-        model_transform = model_transform.times(Mat4.translation(0,-4,0))
-        for(let i=0; i<3; i+=1){
+        //model_transform = model_transform.times(Mat4.translation(0,-4,0))
+        for(let i=0; i<2; i+=1){
             model_transform = model_transform.times(Mat4.translation(4,0,0));
             // this.token.draw(context, program_state, model_transform, this.material);
             if (!this.tokenstored) this.tokens.push(model_transform)
         }
+        model_transform = model_transform.times(Mat4.translation(4,0,0));
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(0,-4,0));
             // this.token.draw(context, program_state, model_transform, this.material);
