@@ -18,10 +18,46 @@ export default class PacMan extends Actor {
         }
         super(info, Mat4.identity(), direction, speed);
         this.position = initPosition;
+        this.prev_direction = null;
     }
 
     draw(context, program_state, materials) {
         this.info.shape.draw(context, program_state, this.position, materials);
+    }
+
+    collision_detection(all_mazes){
+        let detected = false;
+
+        for (let i = 0; i < all_mazes.length; i++){
+            let matrix = Mat4.identity();
+
+            let maze_x = all_mazes[i][0][3];
+            let maze_y = all_mazes[i][1][3];
+
+            let x_loc = this.position[0][3];
+            let y_loc = this.position[1][3];
+            
+            // collision from down to up
+            if (Math.abs(y_loc-maze_y) < 2 && (x_loc === maze_x) && (this.direction == "w" || this.direction == "s") && (this.prev_direction === null)){
+                this.prev_direction = this.direction;
+                this.direction = "z";
+                this.move(this.direction)
+                detected = true;
+                break;
+            }
+
+            // colliison from right or left
+            else if(Math.abs(x_loc-maze_x)<2 && (y_loc === maze_y) && (this.direction == "a" || this.direction == "d") && (this.prev_direction === null)){
+                this.prev_direction = this.direction;
+                this.direction = "z";
+                this.move(this.direction)
+                detected = true;
+                break;
+            }
+
+        }
+        if(!detected)
+            this.move(this.direction)
     }
 
     move() {
@@ -33,19 +69,27 @@ export default class PacMan extends Actor {
         switch (this.direction) {
             // up
             case 'w':
+                if(this.prev_direction === 'w'){break;}
                 matrix = Mat4.translation(0, this.speed, 0);
+                this.prev_direction = null;
                 break;
             // down
             case 's':
+                if(this.prev_direction === 's'){break;}
                 matrix = Mat4.translation(0, -this.speed, 0);
+                this.prev_direction = null;
                 break;
             // left
             case 'a':
+                if(this.prev_direction === 'a'){break;}
                 matrix = Mat4.translation(-this.speed, 0, 0);
+                this.prev_direction = null;
                 break;
             // right
             case 'd':
+                if(this.prev_direction === 'd'){break;}
                 matrix = Mat4.translation(this.speed, 0, 0);
+                this.prev_direction = null;
                 break;
             default:
                 matrix = Mat4.translation(0, 0, 0);
