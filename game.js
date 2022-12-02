@@ -64,7 +64,8 @@ export class Game extends Scene {
             this.shapes.pacman.direction = 'w';
             return;
         }
-        switch(this.shapes.pacman.direction){
+        const direction = this.shapes.pacman.direction === 'z' ? this.shapes.pacman.prev_direction : this.shapes.pacman.direction
+        switch(direction){
             case 'w':
                 this.shapes.pacman.direction = 'w';
                 break;
@@ -90,7 +91,8 @@ export class Game extends Scene {
             return;
         }
         console.log(this.shapes.pacman.direction);
-        switch(this.shapes.pacman.direction){
+        const direction = this.shapes.pacman.direction === 'z' ? this.shapes.pacman.prev_direction : this.shapes.pacman.direction
+        switch(direction){
             case 'w':
                 this.shapes.pacman.direction = 's';
                 break;
@@ -114,7 +116,8 @@ export class Game extends Scene {
             this.shapes.pacman.direction = 'a';
             return;
         }
-        switch(this.shapes.pacman.direction){
+        const direction = this.shapes.pacman.direction === 'z' ? this.shapes.pacman.prev_direction : this.shapes.pacman.direction
+        switch(direction){
             case 'w':
                 this.shapes.pacman.direction = 'a';
                 break;
@@ -138,7 +141,8 @@ export class Game extends Scene {
             this.shapes.pacman.direction = 'd';
             return;
         }
-        switch(this.shapes.pacman.direction){
+        const direction = this.shapes.pacman.direction === 'z' ? this.shapes.pacman.prev_direction : this.shapes.pacman.direction
+        switch(direction){
             case 'w':
                 this.shapes.pacman.direction = 'd';
                 break;
@@ -171,7 +175,8 @@ export class Game extends Scene {
     move_camera(program_state) {
         let desired = this.initial_camera_location;
         let matrix = Mat4.identity();
-        switch (this.shapes.pacman.direction) {
+        const direction = this.shapes.pacman.direction === 'z' ? this.shapes.pacman.prev_direction : this.shapes.pacman.direction
+        switch (direction) {
             // up
             case 'w':
                 matrix = matrix.times(Mat4.translation(0, -5, 5)).times(Mat4.rotation(0.3 * Math.PI, 1, 0, 0));
@@ -198,8 +203,7 @@ export class Game extends Scene {
             desired = this.pacman_scale.times(this.shapes.pacman.position).times(matrix);
             desired = Mat4.inverse(desired);
             desired = desired.map((x, i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
-            if (this.shapes.pacman.direction !== 'z')
-                program_state.set_camera(desired);
+            program_state.set_camera(desired);
         } else{
             let desired = this.initial_camera_location;
             desired = desired.map((x, i) => Vector.from(program_state.camera_inverse[i]).mix(x, blending_factor));
@@ -384,8 +388,8 @@ export class Game extends Scene {
 
         // Place pacman
         const yellow = hex_color("#fac91a");
-        this.shapes.pacman.draw(context, program_state, this.materials.test.override({ color: yellow }));
         this.shapes.pacman.collision_detection(this.shapes.maze.walls);
+        this.shapes.pacman.draw(context, program_state, this.materials.test.override({ color: yellow }));
 
         // Camera that follows PacMan in a POV-style
         this.move_camera(program_state);
