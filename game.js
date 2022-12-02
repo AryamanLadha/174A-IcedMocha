@@ -331,7 +331,7 @@ export class Game extends Scene {
         let game_over;
 
         // pacman died
-        if (this.shapes.tokens.tokens.length == 0 && this.shapes.maze.walls.length == 0){
+        if (this.shapes.tokens.tokens.length == 0){
             program_state.set_camera(this.initial_camera_location);
             this.shapes.ghost1.position = Mat4.identity().times(Mat4.translation(-5,-5, 0)).times(this.ghost_scale);
             this.shapes.ghost2.position = Mat4.identity().times(Mat4.translation(-5,-5, 0)).times(this.ghost_scale);
@@ -340,9 +340,14 @@ export class Game extends Scene {
             this.shapes.pacman.position = Mat4.identity().times(Mat4.translation(-10,-10, 0)).times(this.pacman_scale);
             score_transform = program_state.camera_transform.times(Mat4.translation(-1.75,0,-10)).times(Mat4.scale(0.2, 0.2, 0.2));
             game_over = program_state.camera_transform.times(Mat4.translation(-2.75,1,-10)).times(Mat4.scale(0.2, 0.2, 0.2));
-            this.show_text(context, program_state, game_over, "GAME OVER - YOU LOST!")
-        }
 
+            if (this.shapes.maze.walls.length == 0){
+                this.show_text(context, program_state, game_over, "GAME OVER - YOU LOST!")
+            }
+            else{
+                this.show_text(context, program_state, game_over, "GAME OVER - YOU WIN!")
+            }
+        }
         this.show_text(context, program_state, score_transform, "Score: "+String(this.score).padStart(5,'0'));
     }
 
@@ -388,7 +393,7 @@ export class Game extends Scene {
         this.shapes.ghost3.draw(context, program_state, this.materials.test.override({ color: white }));
         this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }));
 
-        // Move ghosts out of pen
+        // Move ghosts out of pen initially
         if (this.init){
             this.shapes.ghost1.init_move(this);
             this.shapes.ghost2.init_move(this);
@@ -436,12 +441,8 @@ export class Game extends Scene {
                     this.shapes.maze.walls = [];
                 }
             }
-
-
-
         }
-       
-
+  
         // Place pacman and check for pacman vs wall collisions
         const yellow = hex_color("#fac91a");
         this.shapes.pacman.collision_detection(this.shapes.maze.walls);
@@ -449,9 +450,6 @@ export class Game extends Scene {
 
         // Camera that follows PacMan in a POV-style
         this.move_camera(program_state);
-        
-
-
     }
 }
 
