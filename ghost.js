@@ -224,6 +224,8 @@ export default class Ghost extends Actor {
             this.move(this.dir)
     }
 
+    
+
     move(dir){
         let matrix = Mat4.identity();
         const y = this.position[1][3];

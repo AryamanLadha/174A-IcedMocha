@@ -5,7 +5,7 @@ import Ghost from "./ghost.js";
 import Gouraud_Shader from "./gourad-shader.js"
 import Tokens from "./tokens.js";
 const {
-    Vector, Vector3, vec, vec3, vec4, color, hex_color, Shader, Matrix, Mat4, Light, Shape, Material, Scene,
+    Vector, Vector3, vec, vec3, vec4, color, hex_color, Shader, Matrix, Mat4, Light, Shape, Material, Scene, Texture
 } = tiny;
 
 export class Game extends Scene {
@@ -24,9 +24,11 @@ export class Game extends Scene {
         const ghost_initPosition2 = Mat4.identity().times(Mat4.translation(17, 32, 0)).times(this.ghost_scale);
         const ghost_initPosition3 = Mat4.identity().times(Mat4.translation(19, 34, 0)).times(this.ghost_scale);
         const ghost_initPosition4 = Mat4.identity().times(Mat4.translation(19, 32, 0)).times(this.ghost_scale);
+        const texture = new defs.Textured_Phong(1);
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
+            square: new defs.Square(),
             tokens: new Tokens(),
             maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
             pacman: new PacMan(this.speed, initPosition),
@@ -35,11 +37,18 @@ export class Game extends Scene {
             ghost3: new Ghost(this.speed*3, ghost_initPosition3, 3),
             ghost4: new Ghost(this.speed*3, ghost_initPosition4, 4)
         },
-            // *** Materials
-            this.materials = {
-                test: new Material(new defs.Phong_Shader(),
-                    { ambient: 1, diffusivity: .6, color: hex_color("#ffffff") }),
-            }
+        // *** Materials
+        
+        this.materials = {
+            test: new Material(new defs.Phong_Shader(),
+                { ambient: 1, diffusivity: .6, color: hex_color("#ffffff") }),
+
+            text: new Material(texture, {
+                    ambient: 1, diffusivity: 1, specularity: 0,
+                    texture: new Texture("assets/finish_crop.png")
+                    // change texture to something else
+            })
+        }
 
         this.initial_camera_location = Mat4.look_at(vec3(19, 30, 70), vec3(19, 30, 0), vec3(0, 50, 0));
         this.init = true;
@@ -245,7 +254,7 @@ export class Game extends Scene {
     }
 
     // Ghosts eat pacman
-    ghost_eat_pacman_collision_detection(){
+    ghost_eat_pacman_collision_detection(context, program_state){
         let pacman_x = this.shapes.pacman.position[0][3];
         let pacman_y = this.shapes.pacman.position[1][3];
 
@@ -268,6 +277,36 @@ export class Game extends Scene {
                 console.log("GAME OVER");
                 x_collision = false;
                 y_collision = false;
+                return true;
+            }
+        }
+    }
+
+    pacman_eats_token_collision_detection(context, program_state){
+        let pacman_x = this.shapes.pacman.position[0][3];
+        let pacman_y = this.shapes.pacman.position[1][3];
+
+        let dir;
+
+        for (let i = 0; i < this.shapes.tokens.tokens.length; i++){
+            let token_x = this.shapes.tokens.tokens[i][0][3];
+            let token_y = this.shapes.tokens.tokens[i][1][3];
+
+            let y_collision = false;
+            let x_collision = false;
+
+            if (Math.abs(pacman_y - token_y) < 1 && (pacman_x === token_x) && (this.shapes.pacman.direction == "w" || this.shapes.pacman.direction == "s" || this.shapes.pacman.direction == "z"))
+                y_collision = true;
+            else if (Math.abs(pacman_x - token_x)<1 && (pacman_y === token_y) && (this.shapes.pacman.direction == "a" || this.shapes.pacman.direction == "d" || this.shapes.pacman.direction == "z"))
+                x_collision = true;
+
+            if (y_collision || x_collision){
+                this.shapes.tokens.tokens.splice(i,1);
+                // dir =  Math.random() >= 0.5 ? 3 : 4;
+                console.log("eat a token ");
+                x_collision = false;
+                y_collision = false;
+                // return true;
             }
         }
     }
@@ -289,8 +328,9 @@ export class Game extends Scene {
         // The parameters of the Light are: position, color, size
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
-        // Place the maze
+        // Place the maze and tokens
         this.shapes.maze.draw(context, program_state);
+        this.shapes.tokens.render(context, program_state);
 
         // Place one ghost
         const white = hex_color("#FFFFFF");
@@ -301,13 +341,18 @@ export class Game extends Scene {
 
         // Move ghosts out of pen
         if (this.init){
-            // console.log("true");
             this.shapes.ghost1.init_move(this);
             this.shapes.ghost2.init_move(this);
             this.shapes.ghost3.init_move(this);
             this.shapes.ghost4.init_move(this);
-            // this.init = false;
-        } else{
+        } 
+        // After one iteration, check for following collisions:
+        // 1) ghost eats pacman
+        // 2) pacman eats ghost
+        // 3) pacman eats tokens
+        // 4) pacman vs walls
+        // 5) ghosts vs walls
+        else{
             this.shapes.ghost1.collision_detection(this.shapes.maze.walls);
             this.ghost_positions[0] = this.shapes.ghost1.position;
             
@@ -320,8 +365,20 @@ export class Game extends Scene {
             this.shapes.ghost4.collision_detection(this.shapes.maze.walls);
             this.ghost_positions[3] = this.shapes.ghost4.position;
 
+            this.pacman_eats_token_collision_detection(context, program_state);
+
             // this.pacman_eats_ghost_collision_detection(this.ghost_positions);
-            this.ghost_eat_pacman_collision_detection(this.ghost_positions);
+
+            // if pacman dies game ends - TODO i guess
+            if (this.ghost_eat_pacman_collision_detection(context, program_state, this.ghost_positions)){
+                this.box_scale = Mat4.identity().times(Mat4.scale(50, 50, 50));
+                let model_transform2 = Mat4.identity().times(Mat4.translation(18, 28, 0)).times(this.box_scale);
+                if (t > 0){
+                    this.shapes.square.draw(context, program_state, model_transform2, this.materials.text);
+                    // return;
+                }
+                
+            }
         }
        
 
@@ -330,10 +387,9 @@ export class Game extends Scene {
         this.shapes.pacman.draw(context, program_state, this.materials.test.override({ color: yellow }));
         this.shapes.pacman.collision_detection(this.shapes.maze.walls);
 
-        //Place the tokens
-        this.shapes.tokens.draw(context, program_state);
         // Camera that follows PacMan in a POV-style
         this.move_camera(program_state);
+        
 
 
     }

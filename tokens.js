@@ -17,477 +17,479 @@ export default class Tokens{
         this.material =  new Material(
             new Gouraud_Shader(),
             { ambient: 1, color: hex_color("#d2c1b0") }
-            );
+        );
         this.token = new defs.Subdivision_Sphere(4);
 
         //store location of tokens
         this.tokenStored = false;
         this.tokens = [];
-    }
 
-    draw(context, program_state){
         // Place the tokens
         let model_transform = Mat4.identity().times(Mat4.translation(2,10,0)).times(Mat4.scale(this.factor, this.factor, this.factor))
         for(let i = 0; i<17; i+=1){
-            this.token.draw(context, program_state, model_transform, this.material);
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
             model_transform = model_transform.times(Mat4.translation(4,0,0));
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = Mat4.identity().times(Mat4.translation(2,12,0)).times(Mat4.scale(this.factor, this.factor, this.factor));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         for(let i=0; i<20;i+=1){
             model_transform = model_transform.times(Mat4.translation(0,4,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-8,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-24,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-16,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-8,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(12,8,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(8,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,8,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,8,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-8,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(4,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         for(let i=0; i<6; i+=1){
             model_transform = model_transform.times(Mat4.translation(0,4,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
         for(let i=0; i<6; i+=1){
             model_transform = model_transform.times(Mat4.translation(4,0,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
         for(let i=0; i<6; i+=1){
             model_transform = model_transform.times(Mat4.translation(0,-4,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
         model_transform = model_transform.times(Mat4.translation(4,12,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-32,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(36,0,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(4,0,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = model_transform.times(Mat4.translation(-12,-16,0));
 
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(0,4,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = model_transform.times(Mat4.translation(0,8,0));
         for(let i=0; i<11; i+=1){
-            this.token.draw(context, program_state, model_transform, this.material);
+            // this.token.draw(context, program_state, model_transform, this.material);
             model_transform = model_transform.times(Mat4.translation(0,4,0));
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = model_transform.times(Mat4.translation(0,-4,0))
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(4,0,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(0,-4,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         for(let i=0; i<2; i+=1){
             model_transform = model_transform.times(Mat4.translation(-4,0,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = model_transform.times(Mat4.translation(-4,-8,0));
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(4,0,0));
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         model_transform = model_transform.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         model_transform = model_transform.times(Mat4.translation(-12,4,0));
-        this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+        // this.token.draw(context, program_state, model_transform, this.material);
+        if (!this.tokenstored) this.tokens.push(model_transform)
 
         let m1, m2;
         for(let i=0; i<9; i+=1){
             model_transform = model_transform.times(Mat4.translation(-4,0,0));
             if(i == 3) {m1 = model_transform};
             if(i == 5) {m2 = model_transform};
-            this.token.draw(context, program_state, model_transform, this.material);
-            if (!this.tokenstored) this.tokens.push([model_transform[0][3], model_transform[1][3]])
+            // this.token.draw(context, program_state, model_transform, this.material);
+            if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
         for(let i=0; i<3; i+=1){
             m1 = m1.times(Mat4.translation(0,4,0));
             m2 = m2.times(Mat4.translation(0,4,0));
-            this.token.draw(context, program_state, m1, this.material);
-            this.token.draw(context, program_state, m2, this.material);
+            // this.token.draw(context, program_state, m1, this.material);
+            // this.token.draw(context, program_state, m2, this.material);
 
-            if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
-            if (!this.tokenstored) this.tokens.push([m2[0][3], m2[1][3]])
+            if (!this.tokenstored) this.tokens.push(m1)
+            if (!this.tokenstored) this.tokens.push(m2)
         }
 
         for(let i=0; i<3; i+=1){
             m1 = m1.times(Mat4.translation(4,0,0));
             m2 = m2.times(Mat4.translation(-4,0,0));
-            this.token.draw(context, program_state, m1, this.material);
-            this.token.draw(context, program_state, m2, this.material);
+            
+            // this.token.draw(context, program_state, m1, this.material);
+            // this.token.draw(context, program_state, m2, this.material);
 
-            if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
-            if (!this.tokenstored) this.tokens.push([m2[0][3], m2[1][3]])
+            if (!this.tokenstored) this.tokens.push(m1)
+            if (!this.tokenstored) this.tokens.push(m2)
         }
 
         m1 = m1.times(Mat4.translation(-4,-16,0));
         m2 = m2.times(Mat4.translation(4,-16,0));
         for(let i=0; i<3; i+=1){
-            this.token.draw(context, program_state, m1, this.material);
-            this.token.draw(context, program_state, m2, this.material);
+            if (!this.tokenstored) this.tokens.push(m1)
+            if (!this.tokenstored) this.tokens.push(m2)
+            // this.token.draw(context, program_state, m1, this.material);
+            // this.token.draw(context, program_state, m2, this.material);
             m1 = m1.times(Mat4.translation(-4,0,0));
             m2 = m2.times(Mat4.translation(4,0,0));
 
-            if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
-            if (!this.tokenstored) this.tokens.push([m2[0][3], m2[1][3]])
+            if (!this.tokenstored) this.tokens.push(m1)
+            if (!this.tokenstored) this.tokens.push(m2)
         }
 
         m1 = m1.times(Mat4.translation(4,-16,0));
@@ -496,38 +498,41 @@ export default class Tokens{
         for(let i=0; i<2; i+=1){
             m1 = m1.times(Mat4.translation(0,4,0));
             m2 = m2.times(Mat4.translation(0,4,0));
-            this.token.draw(context, program_state, m1, this.material);
-            this.token.draw(context, program_state, m2, this.material);
+            // this.token.draw(context, program_state, m1, this.material);
+            // this.token.draw(context, program_state, m2, this.material);
 
-            if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
-            if (!this.tokenstored) this.tokens.push([m2[0][3], m2[1][3]])
+            if (!this.tokenstored) this.tokens.push(m1)
+            if (!this.tokenstored) this.tokens.push(m2)
         }
 
         for(let i=0; i<2; i+=1){
             m1 = m1.times(Mat4.translation(4,0,0));
             m2 = m2.times(Mat4.translation(-4,0,0));
-            this.token.draw(context, program_state, m1, this.material);
-            this.token.draw(context, program_state, m2, this.material);
+            // this.token.draw(context, program_state, m1, this.material);
+            // this.token.draw(context, program_state, m2, this.material);
 
-            if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
-            if (!this.tokenstored) this.tokens.push([m2[0][3], m2[1][3]])
+            if (!this.tokenstored) this.tokens.push(m1)
+            if (!this.tokenstored) this.tokens.push(m2)
         }
 
         m1 = m1.times(Mat4.translation(0,4,0));
         m2 = m2.times(Mat4.translation(0,4,0));
-        this.token.draw(context, program_state, m1, this.material);
-        this.token.draw(context, program_state, m2, this.material);
-        if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
-        if (!this.tokenstored) this.tokens.push([m2[0][3], m2[1][3]])
+        // this.token.draw(context, program_state, m1, this.material);
+        // this.token.draw(context, program_state, m2, this.material);
+        if (!this.tokenstored) this.tokens.push(m1)
+        if (!this.tokenstored) this.tokens.push(m2)
 
         m1 = m1.times(Mat4.translation(-12,4,0));
-        this.token.draw(context, program_state, m1, this.material);
-        if (!this.tokenstored) this.tokens.push([m1[0][3], m1[1][3]])
+        // this.token.draw(context, program_state, m1, this.material);
+        if (!this.tokenstored) this.tokens.push(m1)
 
         this.tokenstored = true;
 
-
-
-        
     };
+
+    render(context, program_state){
+        for (let i = 0; i < this.tokens.length; i++){
+            this.token.draw(context, program_state, this.tokens[i], this.material);
+        }
+    }
 }
