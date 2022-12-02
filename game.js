@@ -388,10 +388,11 @@ export class Game extends Scene {
 
         // Place one ghost
         const white = hex_color("#FFFFFF");
-        this.shapes.ghost1.draw(context, program_state, this.materials.test.override({ color: white }));
-        this.shapes.ghost2.draw(context, program_state, this.materials.test.override({ color: white }));
-        this.shapes.ghost3.draw(context, program_state, this.materials.test.override({ color: white }));
-        this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }));
+        const isPoweredUp = (this.powerup_timer !== 0);
+        this.shapes.ghost1.draw(context, program_state, this.materials.test.override({ color: white }), t, isPoweredUp);
+        this.shapes.ghost2.draw(context, program_state, this.materials.test.override({ color: white }), t, isPoweredUp);
+        this.shapes.ghost3.draw(context, program_state, this.materials.test.override({ color: white }), t, isPoweredUp);
+        this.shapes.ghost4.draw(context, program_state, this.materials.test.override({ color: white }), t, isPoweredUp);
 
         // Move ghosts out of pen initially
         if (this.init){
