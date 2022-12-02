@@ -31,8 +31,8 @@ export default class PacMan extends Actor {
         for (let i = 0; i < all_mazes.length; i++){
             let matrix = Mat4.identity();
 
-            let maze_x = all_mazes[i][0];
-            let maze_y = all_mazes[i][1];
+            let maze_x = all_mazes[i][0][3];
+            let maze_y = all_mazes[i][1][3];
 
             let x_loc = this.position[0][3];
             let y_loc = this.position[1][3];

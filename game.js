@@ -1,4 +1,6 @@
 import { defs, tiny } from './examples/common.js';
+import {Text_Line} from './examples/text-demo.js';
+
 import Maze from "./maze.js"
 import PacMan from "./pacman.js";
 import Ghost from "./ghost.js";
@@ -18,19 +20,23 @@ export class Game extends Scene {
         const initPosition = Mat4.identity().times(Mat4.translation(18, 28, 0)).times(this.pacman_scale);
         this.attached = false;
 
+        this.score = 0;
+
         this.ghost_scale = Mat4.identity().times(Mat4.scale(0.6, 0.6, 0.6));
         const opening = Mat4.identity().times(Mat4.translation(18, 38, 0)).times(this.ghost_scale);
         const ghost_initPosition1 = Mat4.identity().times(Mat4.translation(17, 34, 0)).times(this.ghost_scale);
         const ghost_initPosition2 = Mat4.identity().times(Mat4.translation(17, 32, 0)).times(this.ghost_scale);
         const ghost_initPosition3 = Mat4.identity().times(Mat4.translation(19, 34, 0)).times(this.ghost_scale);
         const ghost_initPosition4 = Mat4.identity().times(Mat4.translation(19, 32, 0)).times(this.ghost_scale);
+        
         const texture = new defs.Textured_Phong(1);
 
         // At the beginning of our program, load one of each of these shape definitions onto the GPU.
         this.shapes = {
+            text: new Text_Line(35),
             square: new defs.Square(),
             tokens: new Tokens(),
-            maze: new Maze(new Material(new Gouraud_Shader(), { ambient: 1, color: hex_color("#00008B") })),
+            maze: new Maze(),
             pacman: new PacMan(this.speed, initPosition),
             ghost1: new Ghost(this.speed*3, ghost_initPosition1, 1),
             ghost2: new Ghost(this.speed*3, ghost_initPosition2, 2),
@@ -43,11 +49,15 @@ export class Game extends Scene {
             test: new Material(new defs.Phong_Shader(),
                 { ambient: 1, diffusivity: .6, color: hex_color("#ffffff") }),
 
-            text: new Material(texture, {
-                    ambient: 1, diffusivity: 1, specularity: 0,
-                    texture: new Texture("assets/finish_crop.png")
-                    // change texture to something else
+            endgame: new Material(texture, {
+                ambient: 1, diffusivity: 0, specularity: 0
+                // change texture to something else
+            }),
+            text_image: new Material(texture, {
+                ambient: 1, diffusivity: 0, specularity: 0,
+                texture: new Texture("assets/text.png")
             })
+
         }
 
         this.initial_camera_location = Mat4.look_at(vec3(19, 30, 70), vec3(19, 30, 0), vec3(0, 50, 0));
@@ -232,6 +242,7 @@ export class Game extends Scene {
                 x_collision = true;
 
             if (y_collision || x_collision){
+                this.score += 100;
                 dir =  Math.random() >= 0.5 ? 3 : 4;
                 switch (i){
                     case 0:
@@ -277,7 +288,6 @@ export class Game extends Scene {
                 x_collision = true;
 
             if (y_collision || x_collision){
-                // dir =  Math.random() >= 0.5 ? 3 : 4;
                 console.log("GAME OVER");
                 x_collision = false;
                 y_collision = false;
@@ -305,6 +315,7 @@ export class Game extends Scene {
                 x_collision = true;
 
             if (y_collision || x_collision){
+                this.score += 10;
                 this.shapes.tokens.tokens.splice(i,1);
                 // dir =  Math.random() >= 0.5 ? 3 : 4;
                 console.log("eat a token ");
@@ -312,6 +323,35 @@ export class Game extends Scene {
                 y_collision = false;
                 // return true;
             }
+        }
+    }
+
+    end_game(context, program_state){
+        let score_transform = program_state.camera_transform.times(Mat4.translation(4,4,-11)).times(Mat4.scale(0.2, 0.2, 0.2));
+        let game_over;
+
+        // pacman died
+        if (this.shapes.tokens.tokens.length == 0 && this.shapes.maze.walls.length == 0){
+            program_state.set_camera(this.initial_camera_location);
+            this.shapes.ghost1.position = Mat4.identity().times(Mat4.translation(-5,-5, 0)).times(this.ghost_scale);
+            this.shapes.ghost2.position = Mat4.identity().times(Mat4.translation(-5,-5, 0)).times(this.ghost_scale);
+            this.shapes.ghost3.position = Mat4.identity().times(Mat4.translation(-5,-5, 0)).times(this.ghost_scale);
+            this.shapes.ghost4.position = Mat4.identity().times(Mat4.translation(-5,-5, 0)).times(this.ghost_scale);
+            this.shapes.pacman.position = Mat4.identity().times(Mat4.translation(-10,-10, 0)).times(this.pacman_scale);
+            score_transform = program_state.camera_transform.times(Mat4.translation(-1.75,0,-10)).times(Mat4.scale(0.2, 0.2, 0.2));
+            game_over = program_state.camera_transform.times(Mat4.translation(-2.75,1,-10)).times(Mat4.scale(0.2, 0.2, 0.2));
+            this.show_text(context, program_state, game_over, "GAME OVER - YOU LOST!")
+        }
+
+        this.show_text(context, program_state, score_transform, "Score: "+String(this.score).padStart(5,'0'));
+    }
+
+    show_text(context, program_state, model_transform, str){
+        const multi_line_string = str.split('\n');
+        for (let line of multi_line_string.slice(0, 10)) {
+            this.shapes.text.set_string(line, context.context);
+            this.shapes.text.draw(context, program_state, model_transform, this.materials.text_image);
+            model_transform.post_multiply(Mat4.translation(0, -2, 0));
         }
     }
     
@@ -332,9 +372,15 @@ export class Game extends Scene {
         // The parameters of the Light are: position, color, size
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
-        // Place the maze and tokens
-        this.shapes.maze.draw(context, program_state);
+        // Place the maze
+        this.shapes.maze.render(context, program_state);
+
+        // Place the tokens
         this.shapes.tokens.render(context, program_state);
+
+        // Place score and end game check  
+        this.end_game(context, program_state);
+
 
         // Place one ghost
         const white = hex_color("#FFFFFF");
@@ -373,15 +419,10 @@ export class Game extends Scene {
 
             // this.pacman_eats_ghost_collision_detection(this.ghost_positions);
 
-            // if pacman dies game ends - TODO i guess
+            // if pacman dies game ends, take everything off the board
             if (this.ghost_eat_pacman_collision_detection(context, program_state, this.ghost_positions)){
-                this.box_scale = Mat4.identity().times(Mat4.scale(50, 50, 50));
-                let model_transform2 = Mat4.identity().times(Mat4.translation(18, 28, 0)).times(this.box_scale);
-                if (t > 0){
-                    this.shapes.square.draw(context, program_state, model_transform2, this.materials.text);
-                    // return;
-                }
-                
+                this.shapes.tokens.tokens = [];
+                this.shapes.maze.walls = [];
             }
         }
        

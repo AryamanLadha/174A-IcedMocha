@@ -48,14 +48,14 @@ export class Text_Line extends Shape {                           // **Text_Line*
 export class Text_Demo extends Scene {             // **Text_Demo** is a scene with a cube, for demonstrating the Text_Line utility Shape.
     constructor() {
         super()
-        this.shapes = {cube: new defs.Cube(), text: new Text_Line(35)};
+        this.shapes = {cube: new defs.Square(), text: new Text_Line(35)};
         // Don't create any DOM elements to control this scene:
         this.widget_options = {make_controls: false};
 
         const phong = new defs.Phong_Shader();
         const texture = new defs.Textured_Phong(1);
         this.grey = new Material(phong, {
-            color: color(.5, .5, .5, 1), ambient: 0,
+            color: color(0.5, 0.5, 0.5, 1), ambient: 0,
             diffusivity: .3, specularity: .5, smoothness: 10
         })
 
@@ -74,7 +74,7 @@ export class Text_Demo extends Scene {             // **Text_Demo** is a scene w
 
         const t = program_state.animation_time / 1000;
         const funny_orbit = Mat4.rotation(Math.PI / 4 * t, Math.cos(t), Math.sin(t), .7 * Math.cos(t));
-        this.shapes.cube.draw(context, program_state, funny_orbit, this.grey);
+        // this.shapes.cube.draw(context, program_state, funny_orbit, this.grey);
 
 
         let strings = ["This is some text", "More text", "1234567890", "This is a line.\n\n\n" + "This is another line.",
@@ -83,16 +83,16 @@ export class Text_Demo extends Scene {             // **Text_Demo** is a scene w
         // Sample the "strings" array and draw them onto a cube.
         for (let i = 0; i < 3; i++)
             for (let j = 0; j < 2; j++) {             // Find the matrix for a basis located along one of the cube's sides:
-                let cube_side = Mat4.rotation(i == 0 ? Math.PI / 2 : 0, 1, 0, 0)
-                    .times(Mat4.rotation(Math.PI * j - (i == 1 ? Math.PI / 2 : 0), 0, 1, 0))
+                let cube_side = Mat4.rotation(Math.PI / 2)
+                    .times(Mat4.rotation(Math.PI * j - (Math.PI / 2), 0, 1, 0))
                     .times(Mat4.translation(-.9, .9, 1.01));
 
                 const multi_line_string = strings[2 * i + j].split('\n');
                 // Draw a Text_String for every line in our string, up to 30 lines:
                 for (let line of multi_line_string.slice(0, 30)) {             // Assign the string to Text_String, and then draw it.
                     this.shapes.text.set_string(line, context.context);
-                    this.shapes.text.draw(context, program_state, funny_orbit.times(cube_side)
-                        .times(Mat4.scale(.03, .03, .03)), this.text_image);
+                    this.shapes.text.draw(context, program_state, cube_side
+                        .times(Mat4.scale(.03, .03, .03,1)), this.text_image);
                     // Move our basis down a line.
                     cube_side.post_multiply(Mat4.translation(0, -.06, 0));
                 }

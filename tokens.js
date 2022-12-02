@@ -1,6 +1,6 @@
 
 import { defs, tiny } from './examples/common.js';
-import Gouraud_Shader from "./gourad-shader.js"
+import Gouraud_Shader from "./gourad-shader.js";
 
 const {
     Vector, Vector3, vec, vec3, vec4, color, hex_color, Shader, Matrix, Mat4, Light, Shape, Material, Scene,
@@ -531,6 +531,7 @@ export default class Tokens{
     };
 
     render(context, program_state){
+        // console.log(this.tokens.length);
         for (let i = 0; i < this.tokens.length; i++){
             this.token.draw(context, program_state, this.tokens[i], this.material);
         }
