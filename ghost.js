@@ -128,9 +128,17 @@ export default class Ghost extends Actor {
         
     }
 
-    draw(context, program_state, materials) {
+    draw(context, program_state, materials, t, isPoweredUp) {
         // console.log(`${this.position[0][3]}, ${this.position[1][3]}`)
-        this.info.shape.draw(context, program_state, this.position, materials);
+        if(isPoweredUp){
+            const period = 0.5;
+            const osscilate_channel = 0.5+(-0.5)*(Math.cos(Math.PI*t/period));
+            const ghostColor = color(1,osscilate_channel,1,1)
+            this.info.shape.draw(context, program_state, this.position, materials.override({color: ghostColor}));
+        }
+        else{
+            this.info.shape.draw(context, program_state, this.position, materials);
+        }
     }
 
     init_move(game){

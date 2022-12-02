@@ -11,7 +11,7 @@ export default class Maze {
         this.wall = new defs.Cube;
         this.material = new Material(
             new Gouraud_Shader(), 
-            { ambient: 1, color: hex_color("#00008B") }
+            { ambient: 0.5, color: hex_color("#00008B") }
         );
 
         this.wallsstored = false;
