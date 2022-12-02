@@ -18,15 +18,22 @@ export default class Tokens{
             new Gouraud_Shader(),
             { ambient: 1, color: hex_color("#d2c1b0") }
         );
+
+        this.power_up_material = new Material(
+            new Gouraud_Shader(),
+            { ambient: 1, color: hex_color("#FF0000") }
+        );
+
         this.token = new defs.Subdivision_Sphere(4);
 
         //store location of tokens
         this.tokenStored = false;
         this.tokens = [];
+        this.powerups = [];
 
         // Place the tokens
-        let model_transform = Mat4.identity().times(Mat4.translation(2,10,0)).times(Mat4.scale(this.factor, this.factor, this.factor))
-        for(let i = 0; i<17; i+=1){
+        let model_transform = Mat4.identity().times(Mat4.translation(4,10,0)).times(Mat4.scale(this.factor, this.factor, this.factor))
+        for(let i = 0; i<14; i+=1){
             // this.token.draw(context, program_state, model_transform, this.material);
             if (!this.tokenstored) this.tokens.push(model_transform)
             model_transform = model_transform.times(Mat4.translation(4,0,0));
@@ -67,11 +74,7 @@ export default class Tokens{
         // this.token.draw(context, program_state, model_transform, this.material);
         if (!this.tokenstored) this.tokens.push(model_transform)
 
-        model_transform = model_transform.times(Mat4.translation(-4,0,0));
-        // this.token.draw(context, program_state, model_transform, this.material);
-        if (!this.tokenstored) this.tokens.push(model_transform)
-
-        model_transform = model_transform.times(Mat4.translation(0,-4,0));
+        model_transform = model_transform.times(Mat4.translation(-4,-4,0));
         // this.token.draw(context, program_state, model_transform, this.material);
         if (!this.tokenstored) this.tokens.push(model_transform)
 
@@ -408,19 +411,20 @@ export default class Tokens{
             if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
-        model_transform = model_transform.times(Mat4.translation(0,8,0));
+        model_transform = model_transform.times(Mat4.translation(0,4,0));
         for(let i=0; i<11; i+=1){
             // this.token.draw(context, program_state, model_transform, this.material);
             model_transform = model_transform.times(Mat4.translation(0,4,0));
             if (!this.tokenstored) this.tokens.push(model_transform)
         }
 
-        model_transform = model_transform.times(Mat4.translation(0,-4,0))
-        for(let i=0; i<3; i+=1){
+        //model_transform = model_transform.times(Mat4.translation(0,-4,0))
+        for(let i=0; i<2; i+=1){
             model_transform = model_transform.times(Mat4.translation(4,0,0));
             // this.token.draw(context, program_state, model_transform, this.material);
             if (!this.tokenstored) this.tokens.push(model_transform)
         }
+        model_transform = model_transform.times(Mat4.translation(4,0,0));
         for(let i=0; i<3; i+=1){
             model_transform = model_transform.times(Mat4.translation(0,-4,0));
             // this.token.draw(context, program_state, model_transform, this.material);
@@ -526,6 +530,21 @@ export default class Tokens{
         // this.token.draw(context, program_state, m1, this.material);
         if (!this.tokenstored) this.tokens.push(m1)
 
+        
+        //Add the powerups
+        // Bottom-left
+        model_transform = Mat4.identity().times(Mat4.translation(2,10,0)).times(Mat4.scale(this.factor, this.factor, this.factor));
+        if (!this.tokenstored) this.powerups.push(model_transform);
+        //Bottom right: 
+        model_transform = model_transform.times(Mat4.translation(64,0,0));
+        if (!this.tokenstored) this.powerups.push(model_transform);
+        //Top right:
+        model_transform = model_transform.times(Mat4.translation(0,88,0));
+        if (!this.tokenstored) this.powerups.push(model_transform);
+        // Top left:
+        model_transform = model_transform.times(Mat4.translation(-64,0,0))
+        if (!this.tokenstored) this.powerups.push(model_transform);
+
         this.tokenstored = true;
 
     };
@@ -534,6 +553,9 @@ export default class Tokens{
         // console.log(this.tokens.length);
         for (let i = 0; i < this.tokens.length; i++){
             this.token.draw(context, program_state, this.tokens[i], this.material);
+        }
+        for(let i = 0; i< this.powerups.length; i++){
+            this.token.draw(context, program_state, this.powerups[i], this.power_up_material);
         }
     }
 }
