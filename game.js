@@ -65,6 +65,7 @@ export class Game extends Scene {
         this.ghost_inits = [ghost_initPosition1, ghost_initPosition2, ghost_initPosition3, ghost_initPosition4];
         this.ghost_positions = [this.shapes.ghost1.position, this.shapes.ghost2.position, this.shapes.ghost3.position, this.shapes.ghost4.position];
         this.opening = opening;
+        this.powerup_timer = 0;
 
     }
 
@@ -296,15 +297,16 @@ export class Game extends Scene {
         }
     }
 
-    pacman_eats_token_collision_detection(context, program_state){
+    // Pacman eats tokens and powerups
+    pacman_eats_token_collision_detection(context, program_state, all_tokens, score=10){
         let pacman_x = this.shapes.pacman.position[0][3];
         let pacman_y = this.shapes.pacman.position[1][3];
 
         let dir;
 
-        for (let i = 0; i < this.shapes.tokens.tokens.length; i++){
-            let token_x = this.shapes.tokens.tokens[i][0][3];
-            let token_y = this.shapes.tokens.tokens[i][1][3];
+        for (let i = 0; i < all_tokens.length; i++){
+            let token_x = all_tokens[i][0][3];
+            let token_y = all_tokens[i][1][3];
 
             let y_collision = false;
             let x_collision = false;
@@ -315,13 +317,11 @@ export class Game extends Scene {
                 x_collision = true;
 
             if (y_collision || x_collision){
-                this.score += 10;
-                this.shapes.tokens.tokens.splice(i,1);
-                // dir =  Math.random() >= 0.5 ? 3 : 4;
-                console.log("eat a token ");
+                this.score += score;
+                all_tokens.splice(i,1);
                 x_collision = false;
                 y_collision = false;
-                // return true;
+                return true;
             }
         }
     }
@@ -364,7 +364,6 @@ export class Game extends Scene {
             // Define the global camera and projection matrices, which are stored in program_state.
             program_state.set_camera(this.initial_camera_location);
         }
-
         const t = program_state.animation_time / 1000, dt = program_state.animation_delta_time / 1000;
 
         program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, .1, 1000);
@@ -396,13 +395,9 @@ export class Game extends Scene {
             this.shapes.ghost3.init_move(this);
             this.shapes.ghost4.init_move(this);
         } 
-        // After one iteration, check for following collisions:
-        // 1) ghost eats pacman
-        // 2) pacman eats ghost
-        // 3) pacman eats tokens
-        // 4) pacman vs walls
-        // 5) ghosts vs walls
+ 
         else{
+            // Ghosts vs walls collisions
             this.shapes.ghost1.collision_detection(this.shapes.maze.walls);
             this.ghost_positions[0] = this.shapes.ghost1.position;
             
@@ -415,19 +410,39 @@ export class Game extends Scene {
             this.shapes.ghost4.collision_detection(this.shapes.maze.walls);
             this.ghost_positions[3] = this.shapes.ghost4.position;
 
-            this.pacman_eats_token_collision_detection(context, program_state);
+            // Pacman vs tokens collisions
+            this.pacman_eats_token_collision_detection(context, program_state, this.shapes.tokens.tokens);
 
-            // this.pacman_eats_ghost_collision_detection(this.ghost_positions);
-
-            // if pacman dies game ends, take everything off the board
-            if (this.ghost_eat_pacman_collision_detection(context, program_state, this.ghost_positions)){
-                this.shapes.tokens.tokens = [];
-                this.shapes.maze.walls = [];
+            // Pacman vs powerups collisions
+            if (this.pacman_eats_token_collision_detection(context, program_state, this.shapes.tokens.powerups, 50)  ){
+                // console.log("ate a powerup")
+                this.shapes.pacman.speed = 0.15;
+                this.powerup_timer = t;
             }
+
+            if ((this.powerup_timer!== 0) && (t - this.powerup_timer < 20)){
+                this.pacman_eats_ghost_collision_detection(this.ghost_positions);
+            } 
+            else if((this.powerup_timer!== 0) && (t - this.powerup_timer > 20)) {
+                this.shapes.pacman.speed = this.speed;
+                this.powerup_timer =0;
+            }
+
+            else if(this.powerup_timer === 0){
+                // If pacman dies, game ends, take everything off the board
+                if (this.ghost_eat_pacman_collision_detection(context, program_state, this.ghost_positions)){
+                    this.shapes.tokens.tokens = [];
+                    this.shapes.tokens.powerups = [];
+                    this.shapes.maze.walls = [];
+                }
+            }
+
+
+
         }
        
 
-        // Place pacman
+        // Place pacman and check for pacman vs wall collisions
         const yellow = hex_color("#fac91a");
         this.shapes.pacman.collision_detection(this.shapes.maze.walls);
         this.shapes.pacman.draw(context, program_state, this.materials.test.override({ color: yellow }));
